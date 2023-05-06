@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import useRefreshToken from "../Hooks/useRefreshToken.js";
 import useAuth from "../Hooks/useAuth.js";
+import { Spinner } from "@material-tailwind/react";
 
 export default function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,10 +32,8 @@ export default function PersistLogin() {
       {!trustDevice ? (
         <Outlet />
       ) : isLoading ? (
-        <div className="App">
-          <header className="App-header">
-            <div>Loading...</div>
-          </header>
+        <div className="h-screen dark:bg-black flex justify-center items-center">
+          <Spinner className="h-12 w-12" />
         </div>
       ) : (
         <Outlet />

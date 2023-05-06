@@ -43,7 +43,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center align-center bg-white text-black dark:bg-black dark:text-white">
+    <div className="h-screen pt-20 flex flex-col justify-center align-center bg-white text-black dark:bg-black dark:text-white">
       <Card className="mx-auto" color="transparent" shadow={false}>
         <h1 className="text-center text-xl font-medium dark:text-white">
           Welcome back!

@@ -836,6 +836,10 @@ html {
   margin: 1rem;
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -854,6 +858,11 @@ html {
 .mx-px {
   margin-left: 1px;
   margin-right: 1px;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .-ml-1 {
@@ -3408,6 +3417,14 @@ html {
 
 .outline-0 {
   outline-width: 0px;
+}
+
+.outline-1 {
+  outline-width: 1px;
+}
+
+.outline-gray-500 {
+  outline-color: #9e9e9e;
 }
 
 .ring {

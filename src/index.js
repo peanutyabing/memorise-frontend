@@ -15,21 +15,20 @@ root.render(
   <BrowserRouter>
     <AuthProvider>
       <UserProvider>
-        <Navbar />
         <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<App />} />
-          <Route path="/sign-in" element={<SignInForm />} />
-
           <Route element={<PersistLogin />}>
-            {/* Public but auth-differentiated routes */}
+            <Route element={<Navbar />}>
+              {/* Public routes */}
+              <Route path="/" element={<App />} />
+              <Route path="/sign-in" element={<SignInForm />} />
 
-            <Route element={<RequireAuth />}>{/* Protected routes */}</Route>
+              <Route element={<RequireAuth />}>{/* Protected routes */}</Route>
+
+              {/* Catch-all for invalid URLs */}
+              {/* //// Placeholder (App) */}
+              <Route path="*" element={<App />} />
+            </Route>
           </Route>
-
-          {/* Catch-all for invalid URLs */}
-          {/* //// Placeholder (App) */}
-          <Route path="*" element={<App />} />
         </Routes>
       </UserProvider>
     </AuthProvider>
