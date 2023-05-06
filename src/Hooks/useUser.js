@@ -15,7 +15,7 @@ export default function useUser() {
   }, [auth]);
 
   const loadUserProfile = async () => {
-    const profile = await axiosPrivate.get("/user-profile", {
+    const profile = await axiosPrivate.get("/profile", {
       withCredentials: true,
     });
     setUser(profile.data);

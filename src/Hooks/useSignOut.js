@@ -1,4 +1,4 @@
-import { axiosDefault } from "../Axios.js";
+import { axiosDefault } from "../Utils/axios.js";
 import useAuth from "./useAuth.js";
 import { useContext } from "react";
 import UserContext from "../Context/UserProvider.js";

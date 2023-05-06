@@ -1,5 +1,5 @@
 import useAuth from "./useAuth.js";
-import { axiosDefault } from "../Axios.js";
+import { axiosDefault } from "../Utils/axios.js";
 
 export default function useRefreshToken() {
   const { setAuth } = useAuth();

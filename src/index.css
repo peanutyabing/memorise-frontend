@@ -5,7 +5,8 @@
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
-    font-family: "Source Sans 3", sans-serif;
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.125rem;
   }
 }
 
