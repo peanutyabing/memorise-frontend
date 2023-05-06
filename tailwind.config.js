@@ -11,6 +11,9 @@ module.exports = withMT({
       lg: "976px",
       xl: "1440px",
     },
+    fontFamily: {
+      sans: ["Quicksand", "sans-serif"],
+    },
     extend: {
       colors: {
         white: "#f8f7f3",

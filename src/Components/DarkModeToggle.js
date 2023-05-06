@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
+import { LightBulbIcon } from "@heroicons/react/24/outline";
+import { LightBulbIcon as LightBulbIconFilled } from "@heroicons/react/24/solid";
 
 export default function DarkModeToggle() {
   const [darkMode, setDarkMode] = useState(true);
@@ -25,7 +26,7 @@ export default function DarkModeToggle() {
   return (
     <button
       type="button"
-      className="rounded-full p-1 hover:text-sky-700 dark:md:hover:text-yellow"
+      className="rounded-full p-1 hover:text-blue-700 dark:md:hover:text-yellow"
       onClick={toggleDarkMode}
     >
       {darkMode ? (
@@ -34,9 +35,9 @@ export default function DarkModeToggle() {
         <span className="sr-only">Dark Mode</span>
       )}
       {darkMode ? (
-        <SunIcon className="h-6 w-6" aria-hidden="true" />
+        <LightBulbIcon className="h-6 w-6" aria-hidden="true" />
       ) : (
-        <MoonIcon className="h-6 w-6" aria-hidden="true" />
+        <LightBulbIconFilled className="h-6 w-6" aria-hidden="true" />
       )}
     </button>
   );

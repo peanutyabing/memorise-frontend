@@ -24,6 +24,7 @@ export default function SignInForm() {
     e.preventDefault();
     if (!email || !password) {
       alert("Please provide your email and password!");
+      return;
     }
     try {
       const signInRes = await axiosDefault.post(
@@ -87,7 +88,7 @@ export default function SignInForm() {
             onChange={toggleTrustDevice}
           />
           <Button
-            className="mt-6 font-quicksand text-base"
+            className="mt-4 font-quicksand text-sm"
             fullWidth
             type="submit"
             color="orange"
@@ -96,12 +97,14 @@ export default function SignInForm() {
           </Button>
           <div className="mt-4 text-center text-black dark:text-white">
             Need an account?{" "}
-            <a
-              href="/"
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+            <span
+              onClick={() => {
+                navigate("/sign-up");
+              }}
+              className="font-medium text-blue-500 transition-colors hover:text-blue-700 cursor-pointer select-none"
             >
               Sign Up
-            </a>
+            </span>
           </div>
         </form>
       </Card>

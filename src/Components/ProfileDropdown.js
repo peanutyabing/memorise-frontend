@@ -1,11 +1,22 @@
+import { useNavigate } from "react-router-dom";
+import useSignOut from "../Hooks/useSignOut.js";
+import useUser from "../Hooks/useUser.js";
 import { Fragment } from "react";
 import { classNames } from "./Navbar.js";
-import useUser from "../Hooks/useUser.js";
 import { Menu, Transition } from "@headlessui/react";
+import { Chip } from "@material-tailwind/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { RocketLaunchIcon } from "@heroicons/react/24/solid";
 
 export default function ProfileDropdown() {
   const { user } = useUser();
+  const navigate = useNavigate();
+  const signOut = useSignOut();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <Menu as="div" className="relative ml-3">
@@ -35,42 +46,58 @@ export default function ProfileDropdown() {
         {user?.username ? (
           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <Menu.Item>
+              <Chip
+                className="mx-2 mt-1 cursor-pointer hover:shadow-lg"
+                value={`${user.xp} points`}
+                variant="gradient"
+                color="amber"
+                icon={<RocketLaunchIcon />}
+                onClick={() => {
+                  navigate("/sign-in");
+                }} //// placeholder for xp history
+              />
+            </Menu.Item>
+            <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <div
                   className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
+                    active ? "bg-gray-200" : "",
+                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
                   )}
+                  onClick={() => {
+                    navigate("/");
+                  }}
                 >
                   Your Profile
-                </a>
+                </div>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <div
                   className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
+                    active ? "bg-gray-200" : "",
+                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
                   )}
+                  onClick={() => {
+                    navigate("/");
+                  }}
                 >
                   Settings
-                </a>
+                </div>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <div
+                  onClick={handleSignOut}
                   className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
+                    active ? "bg-gray-200" : "",
+                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
                   )}
                 >
                   Sign out
-                </a>
+                </div>
               )}
             </Menu.Item>
           </Menu.Items>
@@ -78,15 +105,32 @@ export default function ProfileDropdown() {
           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/sign-in"
+                <div
                   className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
+                    active ? "bg-gray-200" : "",
+                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
                   )}
+                  onClick={() => {
+                    navigate("/sign-in");
+                  }}
                 >
                   Sign in
-                </a>
+                </div>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <div
+                  className={classNames(
+                    active ? "bg-gray-200" : "",
+                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
+                  )}
+                  onClick={() => {
+                    navigate("/sign-up");
+                  }}
+                >
+                  Create account
+                </div>
               )}
             </Menu.Item>
           </Menu.Items>

@@ -8,6 +8,7 @@ import PersistLogin from "./Components/PersistLogin.js";
 import Navbar from "./Components/Navbar.js";
 import App from "./App.js";
 import SignInForm from "./Components/SignInForm.js";
+import SignUpForm from "./Components/SignUpForm.js";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -21,6 +22,7 @@ root.render(
               {/* Public routes */}
               <Route path="/" element={<App />} />
               <Route path="/sign-in" element={<SignInForm />} />
+              <Route path="/sign-up" element={<SignUpForm />} />
 
               <Route element={<RequireAuth />}>{/* Protected routes */}</Route>
 
