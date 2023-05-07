@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth.js";
-import { axiosDefault, axiosPrivate } from "../Utils/axios.js";
+import { axiosDefault } from "../Utils/axios.js";
+import useAxiosPrivate from "../Hooks/useAxiosPrivate.js";
 import { storage } from "../Firebase.js";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import {
@@ -17,6 +18,7 @@ import PasswordStrengthBar from "react-password-strength-bar";
 export default function SignInForm() {
   const { setAuth, trustDevice, setTrustDevice } = useAuth();
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
   const [imageUrl, setImageUrl] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");

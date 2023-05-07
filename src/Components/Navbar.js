@@ -1,15 +1,8 @@
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import DarkModeToggle from "./DarkModeToggle.js";
 import ProfileDropdown from "./ProfileDropdown.js";
-
-const navigation = [
-  { name: "Home", url: "/", current: true },
-  { name: "Feed", url: "/", current: false },
-  { name: "My Decks", url: "/", current: false },
-  { name: "Social", url: "/", current: false },
-];
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -17,6 +10,22 @@ export function classNames(...classes) {
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const navigation = [
+    {
+      name: "Home",
+      url: "/",
+      current: location.pathname === "/",
+    },
+    { name: "Feed", url: "/", current: false },
+    {
+      name: "My Decks",
+      url: "/my-decks",
+      current: location.pathname === "/my-decks",
+    },
+    { name: "Social", url: "/", current: false },
+  ];
 
   return (
     <>
@@ -62,9 +71,9 @@ export default function Navbar() {
                           }}
                           className={classNames(
                             item.current
-                              ? "border-b-2 border-r-2 border-gray-400"
+                              ? "underline decoration-yellow decoration-4 underline-offset-8"
                               : "",
-                            "text-white dark:text-black rounded-md px-3 py-2 hover:shadow-md hover:shadow-gray-400"
+                            "text-white dark:text-black rounded-md px-3 py-2 hover:-translate-y-1 hover:scale-110 duration-300"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >
@@ -91,9 +100,9 @@ export default function Navbar() {
                     }}
                     className={classNames(
                       item.current
-                        ? "border-b-2 border-r-2 border-gray-400"
+                        ? "underline decoration-yellow decoration-4 underline-offset-4"
                         : "",
-                      "block rounded-md px-3 py-2 text-white dark:text-black rounded-md px-3 py-2 hover:shadow-md hover:shadow-gray-400"
+                      "block rounded-md px-3 py-2 text-white dark:text-black rounded-md px-3 py-2"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >

@@ -21,7 +21,7 @@ export default function ProfileDropdown() {
   return (
     <Menu as="div" className="relative ml-3">
       <div>
-        <Menu.Button className="rounded-full p-1  hover:text-stone-400">
+        <Menu.Button className="rounded-full p-1  hover:-translate-y-1 hover:scale-110 duration-300">
           <span className="sr-only">Open user menu</span>
           {user?.imageUrl ? (
             <img

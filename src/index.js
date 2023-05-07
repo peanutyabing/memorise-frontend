@@ -9,6 +9,7 @@ import Navbar from "./Components/Navbar.js";
 import App from "./App.js";
 import SignInForm from "./Components/SignInForm.js";
 import SignUpForm from "./Components/SignUpForm.js";
+import MyDecks from "./Components/MyDecks.js";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -24,7 +25,10 @@ root.render(
               <Route path="/sign-in" element={<SignInForm />} />
               <Route path="/sign-up" element={<SignUpForm />} />
 
-              <Route element={<RequireAuth />}>{/* Protected routes */}</Route>
+              <Route element={<RequireAuth />}>
+                {/* Protected routes */}
+                <Route path="/my-decks" element={<MyDecks />} />
+              </Route>
 
               {/* Catch-all for invalid URLs */}
               {/* //// Placeholder (App) */}

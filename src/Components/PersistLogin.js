@@ -17,6 +17,7 @@ export default function PersistLogin() {
         await refresh();
       } catch (err) {
         console.log(err);
+        alert(err.message);
       } finally {
         isMounted && setIsLoading(false);
       }
