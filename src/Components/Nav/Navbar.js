@@ -1,6 +1,7 @@
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { SunIcon } from "@heroicons/react/24/solid";
 import DarkModeToggle from "./DarkModeToggle.js";
 import ProfileDropdown from "./ProfileDropdown.js";
 
@@ -31,7 +32,7 @@ export default function Navbar() {
     <>
       <Disclosure
         as="nav"
-        className="fixed top-0 w-full bg-black font-medium text-white dark:bg-white dark:text-black"
+        className="fixed top-0 w-full bg-sky-500 font-medium text-white dark:text-black"
       >
         {({ open }) => (
           <>
@@ -39,7 +40,7 @@ export default function Navbar() {
               <div className="relative flex h-16 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-white dark:text-black hover:bg-pale-100">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -50,16 +51,8 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
-                    <img
-                      className="block h-8 w-auto lg:hidden"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
-                    <img
-                      className="hidden h-8 w-auto lg:block"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
+                    <SunIcon className="text-yellow h-10 w-10 lg:hidden" />
+                    <SunIcon className="hidden text-yellow h-10 w-10 lg:block" />
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
@@ -73,7 +66,7 @@ export default function Navbar() {
                             item.current
                               ? "underline decoration-yellow decoration-4 underline-offset-8"
                               : "",
-                            "text-white dark:text-black rounded-md px-3 py-2 hover:-translate-y-1 hover:scale-110 duration-300"
+                            "text-white dark:text-black rounded-md px-3 py-2 hover:-translate-y-1 hover:scale-110 duration-300 select-none cursor-pointer"
                           )}
                           aria-current={item.current ? "page" : undefined}
                         >

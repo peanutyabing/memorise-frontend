@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import useUser from "../Hooks/useUser.js";
-import useAxiosPrivate from "../Hooks/useAxiosPrivate.js";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
+import OneDeck from "./OneDeck.js";
 
 export default function MyDecks() {
-  const { user } = useUser();
   const [userDecks, setUserDecks] = useState([]);
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    getUserDecks().then(console.log(userDecks));
+    getUserDecks();
   }, []);
 
   const getUserDecks = async () => {
@@ -19,8 +18,10 @@ export default function MyDecks() {
   return (
     <div className="h-screen pt-20 h-max bg-white text-black dark:bg-black dark:text-white">
       <header></header>
-      <main className="flex flex-col justify-center items-center">
-        <h1>decks</h1>
+      <main className="flex flex-wrap justify-evenly items-center">
+        {userDecks.map((deck) => (
+          <OneDeck key={deck.id} deckInfo={deck} />
+        ))}
       </main>
     </div>
   );

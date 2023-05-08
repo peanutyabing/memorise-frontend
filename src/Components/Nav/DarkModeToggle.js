@@ -26,7 +26,7 @@ export default function DarkModeToggle() {
   return (
     <button
       type="button"
-      className="rounded-full p-1 hover:text-blue-700 dark:md:hover:text-yellow hover:-translate-y-1 hover:scale-110 duration-300"
+      className="rounded-full p-1 hover:-translate-y-1 hover:scale-110 duration-300"
       onClick={toggleDarkMode}
     >
       {darkMode ? (
@@ -35,9 +35,15 @@ export default function DarkModeToggle() {
         <span className="sr-only">Dark Mode</span>
       )}
       {darkMode ? (
-        <LightBulbIcon className="h-6 w-6" aria-hidden="true" />
+        <LightBulbIconFilled
+          className="h-6 w-6 hover:text-white"
+          aria-hidden="true"
+        />
       ) : (
-        <LightBulbIconFilled className="h-6 w-6" aria-hidden="true" />
+        <LightBulbIcon
+          className="h-6 w-6 hover:text-black"
+          aria-hidden="true"
+        />
       )}
     </button>
   );

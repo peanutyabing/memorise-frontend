@@ -5,11 +5,11 @@ import { AuthProvider } from "./Context/AuthProvider.js";
 import { UserProvider } from "./Context/UserProvider.js";
 import RequireAuth from "./Components/RequireAuth.js";
 import PersistLogin from "./Components/PersistLogin.js";
-import Navbar from "./Components/Navbar.js";
+import Navbar from "./Components/Nav/Navbar.js";
 import App from "./App.js";
 import SignInForm from "./Components/SignInForm.js";
 import SignUpForm from "./Components/SignUpForm.js";
-import MyDecks from "./Components/MyDecks.js";
+import MyDecks from "./Components/Decks/MyDecks.js";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

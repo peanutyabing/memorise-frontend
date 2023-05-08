@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import useSignOut from "../Hooks/useSignOut.js";
-import useUser from "../Hooks/useUser.js";
+import useSignOut from "../../Hooks/useSignOut.js";
+import useUser from "../../Hooks/useUser.js";
 import { Fragment } from "react";
 import { classNames } from "./Navbar.js";
 import { Menu, Transition } from "@headlessui/react";
@@ -21,7 +21,7 @@ export default function ProfileDropdown() {
   return (
     <Menu as="div" className="relative ml-3">
       <div>
-        <Menu.Button className="rounded-full p-1  hover:-translate-y-1 hover:scale-110 duration-300">
+        <Menu.Button className="rounded-full p-1 hover:-translate-y-1 hover:scale-110 duration-300">
           <span className="sr-only">Open user menu</span>
           {user?.imageUrl ? (
             <img
@@ -44,7 +44,7 @@ export default function ProfileDropdown() {
         leaveTo="transform opacity-0 scale-95"
       >
         {user?.username ? (
-          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-sky-500 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <Menu.Item>
               <Chip
                 className="mx-2 mt-1 cursor-pointer hover:shadow-lg"
@@ -53,7 +53,7 @@ export default function ProfileDropdown() {
                 color="amber"
                 icon={<RocketLaunchIcon />}
                 onClick={() => {
-                  navigate("/sign-in");
+                  navigate("/");
                 }} //// placeholder for xp history
               />
             </Menu.Item>
@@ -61,8 +61,8 @@ export default function ProfileDropdown() {
               {({ active }) => (
                 <div
                   className={classNames(
-                    active ? "bg-gray-200" : "",
-                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
+                    active ? "bg-pale-100" : "",
+                    "block px-4 py-2 text-sm text-white dark:text-black cursor-pointer select-none"
                   )}
                   onClick={() => {
                     navigate("/");
@@ -76,8 +76,8 @@ export default function ProfileDropdown() {
               {({ active }) => (
                 <div
                   className={classNames(
-                    active ? "bg-gray-200" : "",
-                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
+                    active ? "bg-pale-100" : "",
+                    "block px-4 py-2 text-sm text-white dark:text-black cursor-pointer select-none"
                   )}
                   onClick={() => {
                     navigate("/");
@@ -92,8 +92,8 @@ export default function ProfileDropdown() {
                 <div
                   onClick={handleSignOut}
                   className={classNames(
-                    active ? "bg-gray-200" : "",
-                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
+                    active ? "bg-pale-100" : "",
+                    "block px-4 py-2 text-sm text-white dark:text-black cursor-pointer select-none"
                   )}
                 >
                   Sign out
@@ -102,13 +102,13 @@ export default function ProfileDropdown() {
             </Menu.Item>
           </Menu.Items>
         ) : (
-          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-sky-500 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <Menu.Item>
               {({ active }) => (
                 <div
                   className={classNames(
-                    active ? "bg-gray-200" : "",
-                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
+                    active ? "bg-pale-100" : "",
+                    "block px-4 py-2 text-sm text-white dark:text-black cursor-pointer select-none"
                   )}
                   onClick={() => {
                     navigate("/sign-in");
@@ -122,8 +122,8 @@ export default function ProfileDropdown() {
               {({ active }) => (
                 <div
                   className={classNames(
-                    active ? "bg-gray-200" : "",
-                    "block px-4 py-2 text-sm text-black cursor-pointer select-none"
+                    active ? "bg-pale-100" : "",
+                    "block px-4 py-2 text-sm text-white dark:text-black cursor-pointer select-none"
                   )}
                   onClick={() => {
                     navigate("/sign-up");

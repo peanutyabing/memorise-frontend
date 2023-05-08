@@ -6,7 +6,7 @@ module.exports = withMT({
   darkMode: "class",
   theme: {
     screens: {
-      sm: "480px",
+      sm: "632px",
       md: "768px",
       lg: "976px",
       xl: "1440px",
@@ -30,6 +30,14 @@ module.exports = withMT({
           700: "#0369a1",
           800: "#075985",
           900: "#0c4a6e",
+        },
+        pale: {
+          50: "#eceff170",
+          100: "#cfd8dc70",
+          200: "#b0bec570",
+          500: "#607d8b70",
+          700: "#455a6470",
+          800: "#37474f70",
         },
       },
       fontFamily: {
