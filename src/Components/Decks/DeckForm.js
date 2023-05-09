@@ -10,7 +10,7 @@ import FormSelectField from "./FormSelectField.js";
 export default function DeckForm() {
   const navigate = useNavigate();
   const { deckId } = useParams();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const axiosPrivate = useAxiosPrivate();
 
   const [languages, setLanguages] = useState([]);
@@ -38,7 +38,7 @@ export default function DeckForm() {
       setNonPulic(currentDeck?.data?.nonPublic);
     } catch (err) {
       console.log(err);
-      alert(`Having troubel finding this deck. ${err.msg}`);
+      alert(`Having troubel finding this deck. ${err.message}`);
     }
   };
 
@@ -49,7 +49,7 @@ export default function DeckForm() {
       setRows(currentDeckCards?.data?.length);
     } catch (err) {
       console.log(err);
-      alert(`Having troubel finding cards under this deck. ${err.msg}`);
+      alert(`Having troubel finding cards under this deck. ${err.message}`);
     }
   };
 
@@ -65,7 +65,7 @@ export default function DeckForm() {
     } catch (err) {
       console.log(err);
       alert(
-        `Something went wrong when loading the languages. Please try again later. ${err.msg}`
+        `Something went wrong when loading the languages. Please try again later. ${err.message}`
       );
     }
   };
@@ -77,7 +77,147 @@ export default function DeckForm() {
     } catch (err) {
       console.log(err);
       alert(
-        `Something went wrong when loading the languages. Please try again later. ${err.msg}`
+        `Something went wrong when loading the languages. Please try again later. ${err.message}`
+      );
+    }
+  };
+
+  const handleRemoveRow = (i) => {
+    const updatedDeck = [...deck];
+    const removedFormRow = updatedDeck.splice(i, 1)[0];
+    if (removedFormRow.id) {
+      setCardsToDelete((prev) => [...prev, removedFormRow]);
+    }
+    setDeck(updatedDeck);
+    setRows((prev) => prev - 1);
+  };
+
+  const handleChange = (e, sideOfCard) => {
+    const updatedDeck = [...deck];
+    if (updatedDeck[e.target.name]) {
+      updatedDeck[e.target.name][sideOfCard] = e.target.value;
+    } else {
+      updatedDeck[e.target.name] = { [sideOfCard]: e.target.value };
+    }
+    setDeck(updatedDeck);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(deck);
+    if (deckId) {
+      await updateDeck();
+    } else {
+      await addNewDeck();
+    }
+    setTimeout(() => {
+      navigate("/my-decks");
+    }, 1000);
+  };
+
+  const updateDeck = async () => {
+    try {
+      await axiosPrivate.put(`decks/${deckId}`, {
+        languageId: selectedLanguage.id,
+        difficultyLevelId: selectedDifficultyLevel.id,
+        nonPublic,
+      });
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when updating this deck. Did you fill in all the fields? ${err.message}`
+      );
+    }
+
+    bulkUpdateCards();
+    bulkDeleteCards();
+  };
+
+  const bulkUpdateCards = async () => {
+    const newCards = deck?.filter((card) => !card.id);
+    const existingCards = deck?.filter((card) => card.id);
+
+    try {
+      await Promise.all(
+        existingCards.map((card) =>
+          axiosPrivate.put(`/cards/${card?.id}`, card)
+        )
+      );
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when updating cards. Does every card have both front and back? ${err.message}`
+      );
+    }
+
+    bulkAddCards(deckId, newCards);
+  };
+
+  const bulkDeleteCards = async () => {
+    if (!cardsToDelete.length) {
+      return;
+    }
+    try {
+      await Promise.all(
+        cardsToDelete.map((card) => axiosPrivate.delete(`/cards/${card?.id}`))
+      );
+    } catch (err) {
+      console.log(err);
+      alert(`Something went wrong when removing a card. ${err.message}`);
+    }
+  };
+
+  const addNewDeck = async () => {
+    try {
+      const newDeck = await axiosPrivate.post("/decks", {
+        authorId: user?.id,
+        languageId: selectedLanguage.id,
+        difficultyLevelId: selectedDifficultyLevel.id,
+        nonPublic,
+      });
+      const newDeckId = newDeck.data.id;
+
+      await bulkAddCards(newDeckId, deck);
+      incrementXp(deck.length);
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when adding this deck. Did you fill in all the fields? ${err.message}`
+      );
+    }
+  };
+
+  const incrementXp = async (numberOfCards) => {
+    const xpIncrement = 10 * numberOfCards;
+    try {
+      const updatedProfileRes = await axiosPrivate.put("/profile/xp", {
+        xpIncrement,
+      });
+      setUser(updatedProfileRes.data);
+      alert(
+        `Congrats! You just earned ${xpIncrement}xp for adding a new deck.`
+      );
+    } catch (err) {
+      console.log(err);
+      alert(`Oops. We didn't manage to update your XP. ${err.message}`);
+    }
+  };
+
+  const bulkAddCards = async (deckId, cards) => {
+    try {
+      await Promise.all(
+        cards.map((card) =>
+          axiosPrivate.post("/cards", {
+            deckId,
+            front: card.front,
+            back: card.back,
+          })
+        )
+      );
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when adding cards. Does every card have both front and back? ${err.message}`
       );
     }
   };
@@ -125,129 +265,6 @@ export default function DeckForm() {
       );
     }
     return inputRows;
-  };
-
-  const handleRemoveRow = (i) => {
-    const updatedDeck = [...deck];
-    const removedFormRow = updatedDeck.splice(i, 1)[0];
-    if (removedFormRow.id) {
-      setCardsToDelete((prev) => [...prev, removedFormRow]);
-    }
-    setDeck(updatedDeck);
-    setRows((prev) => prev - 1);
-  };
-
-  const handleChange = (e, sideOfCard) => {
-    const updatedDeck = [...deck];
-    if (updatedDeck[e.target.name]) {
-      updatedDeck[e.target.name][sideOfCard] = e.target.value;
-    } else {
-      updatedDeck[e.target.name] = { [sideOfCard]: e.target.value };
-    }
-    setDeck(updatedDeck);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(deck);
-    if (deckId) {
-      await updateDeck();
-    } else {
-      await AddNewDeck();
-    }
-    setTimeout(() => {
-      navigate("/my-decks");
-    }, 1000);
-  };
-
-  const updateDeck = async () => {
-    try {
-      await axiosPrivate.put(`decks/${deckId}`, {
-        languageId: selectedLanguage.id,
-        difficultyLevelId: selectedDifficultyLevel.id,
-        nonPublic,
-      });
-    } catch (err) {
-      console.log(err);
-      alert(
-        `Something went wrong when updating this deck. Did you fill in all the fields? ${err.msg}`
-      );
-    }
-
-    bulkUpdateCards();
-    bulkDeleteCards();
-  };
-
-  const bulkUpdateCards = async () => {
-    const newCards = deck?.filter((card) => !card.id);
-    const existingCards = deck?.filter((card) => card.id);
-
-    try {
-      await Promise.all(
-        existingCards.map((card) =>
-          axiosPrivate.put(`/cards/${card?.id}`, card)
-        )
-      );
-    } catch (err) {
-      console.log(err);
-      alert(
-        `Something went wrong when updating cards. Does every card have both front and back? ${err.msg}`
-      );
-    }
-
-    bulkAddCards(deckId, newCards);
-  };
-
-  const bulkDeleteCards = async () => {
-    if (!cardsToDelete.length) {
-      return;
-    }
-    try {
-      await Promise.all(
-        cardsToDelete.map((card) => axiosPrivate.delete(`/cards/${card?.id}`))
-      );
-    } catch (err) {
-      console.log(err);
-      alert(`Something went wrong when removing a card. ${err.msg}`);
-    }
-  };
-
-  const AddNewDeck = async () => {
-    try {
-      const newDeck = await axiosPrivate.post("/decks", {
-        authorId: user?.id,
-        languageId: selectedLanguage.id,
-        difficultyLevelId: selectedDifficultyLevel.id,
-        nonPublic,
-      });
-      const newDeckId = newDeck.data.id;
-
-      bulkAddCards(newDeckId, deck);
-    } catch (err) {
-      console.log(err);
-      alert(
-        `Something went wrong when adding this deck. Did you fill in all the fields? ${err.msg}`
-      );
-    }
-  };
-
-  const bulkAddCards = async (deckId, cards) => {
-    try {
-      await Promise.all(
-        cards.map((card) =>
-          axiosPrivate.post("/cards", {
-            deckId,
-            front: card.front,
-            back: card.back,
-          })
-        )
-      );
-    } catch (err) {
-      console.log(err);
-      alert(
-        `Something went wrong when adding cards. Does every card have both front and back? ${err.msg}`
-      );
-    }
   };
 
   return (

@@ -5,7 +5,7 @@ export default function DifficultyRating(props) {
   const difficultyRating = parseInt(props.difficultyRating);
   const colorChart = {
     1: "light-green-500",
-    2: "yellow-500",
+    2: "lime-500",
     3: "amber-500",
     4: "red-500",
     5: "purple-500",
