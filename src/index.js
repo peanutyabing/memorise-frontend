@@ -10,6 +10,7 @@ import App from "./App.js";
 import SignInForm from "./Components/SignInForm.js";
 import SignUpForm from "./Components/SignUpForm.js";
 import MyDecks from "./Components/Decks/MyDecks.js";
+import AddDeckForm from "./Components/Decks/AddDeckForm.js";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -28,6 +29,7 @@ root.render(
               <Route element={<RequireAuth />}>
                 {/* Protected routes */}
                 <Route path="/my-decks" element={<MyDecks />} />
+                <Route path="/my-decks/new" element={<AddDeckForm />} />
               </Route>
 
               {/* Catch-all for invalid URLs */}

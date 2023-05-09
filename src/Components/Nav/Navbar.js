@@ -23,7 +23,7 @@ export default function Navbar() {
     {
       name: "My Decks",
       url: "/my-decks",
-      current: location.pathname === "/my-decks",
+      current: location.pathname.includes("/my-decks"),
     },
     { name: "Social", url: "/", current: false },
   ];
@@ -32,7 +32,7 @@ export default function Navbar() {
     <>
       <Disclosure
         as="nav"
-        className="fixed top-0 w-full bg-sky-500 font-medium text-white dark:text-black"
+        className="fixed top-0 w-full bg-sky-500 font-medium text-white dark:text-black z-40"
       >
         {({ open }) => (
           <>

@@ -48,7 +48,7 @@ export default function ProfileDropdown() {
             <Menu.Item>
               <Chip
                 className="mx-2 mt-1 cursor-pointer hover:shadow-lg"
-                value={`${user.xp} points`}
+                value={`${user.xp} XP`}
                 variant="gradient"
                 color="amber"
                 icon={<RocketLaunchIcon />}

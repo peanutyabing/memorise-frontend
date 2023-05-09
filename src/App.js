@@ -1,6 +1,6 @@
 function App() {
   return (
-    <div className="h-screen pt-20 h-max bg-white text-black dark:bg-black dark:text-white">
+    <div className="pt-20 pb-10 h-max min-h-screen bg-white text-black dark:bg-black dark:text-white">
       <header></header>
       <main className="flex flex-col justify-center items-center">
         <p>Hello this is the landing page</p>
