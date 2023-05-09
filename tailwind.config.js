@@ -9,9 +9,9 @@ module.exports = withMT({
       xxs: "320px",
       xs: "460px",
       sm: "632px",
-      md: "768px",
-      lg: "1140px",
-      xl: "1560px",
+      md: "840px",
+      lg: "1240px",
+      xl: "1640px",
     },
     fontFamily: {
       sans: ["Quicksand", "sans-serif"],

@@ -1,25 +1,57 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { axiosDefault } from "../../Utils/axios.js";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import useUser from "../../Hooks/useUser.js";
 import { Input, Button, Checkbox } from "@material-tailwind/react";
 import { PlusCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import FormSelectField from "./FormSelectField.js";
-import useAuth from "../../Hooks/useAuth.js";
 
-export default function MakeDeckForm() {
+export default function DeckForm() {
   const navigate = useNavigate();
+  const { deckId } = useParams();
   const { user } = useUser();
   const axiosPrivate = useAxiosPrivate();
+
   const [languages, setLanguages] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState({});
   const [difficultyLevels, setDifficultyLevels] = useState([]);
+
+  const [selectedLanguage, setSelectedLanguage] = useState({});
   const [selectedDifficultyLevel, setSelectedDifficultyLevel] = useState({});
   const [nonPublic, setNonPulic] = useState(false);
   const [deck, setDeck] = useState([]);
   const [rows, setRows] = useState(5);
-  const { auth } = useAuth();
+  const [cardsToDelete, setCardsToDelete] = useState([]);
+
+  useEffect(() => {
+    if (deckId) {
+      pullDeckData();
+      pullCardsData();
+    }
+  }, [deckId]);
+
+  const pullDeckData = async () => {
+    try {
+      const currentDeck = await axiosPrivate.get(`/decks/${deckId}`);
+      setSelectedLanguage(currentDeck?.data?.language);
+      setSelectedDifficultyLevel(currentDeck?.data?.difficultyLevel);
+      setNonPulic(currentDeck?.data?.nonPublic);
+    } catch (err) {
+      console.log(err);
+      alert(`Having troubel finding this deck. ${err.msg}`);
+    }
+  };
+
+  const pullCardsData = async () => {
+    try {
+      const currentDeckCards = await axiosPrivate.get(`/cards/${deckId}`);
+      setDeck(currentDeckCards?.data);
+      setRows(currentDeckCards?.data?.length);
+    } catch (err) {
+      console.log(err);
+      alert(`Having troubel finding cards under this deck. ${err.msg}`);
+    }
+  };
 
   useEffect(() => {
     getLanguages();
@@ -33,7 +65,7 @@ export default function MakeDeckForm() {
     } catch (err) {
       console.log(err);
       alert(
-        "Something went wrong when loading the languages. Please try again later."
+        `Something went wrong when loading the languages. Please try again later. ${err.msg}`
       );
     }
   };
@@ -45,7 +77,7 @@ export default function MakeDeckForm() {
     } catch (err) {
       console.log(err);
       alert(
-        "Something went wrong when loading the languages. Please try again later."
+        `Something went wrong when loading the languages. Please try again later. ${err.msg}`
       );
     }
   };
@@ -97,7 +129,10 @@ export default function MakeDeckForm() {
 
   const handleRemoveRow = (i) => {
     const updatedDeck = [...deck];
-    updatedDeck.splice(i, 1);
+    const removedFormRow = updatedDeck.splice(i, 1)[0];
+    if (removedFormRow.id) {
+      setCardsToDelete((prev) => [...prev, removedFormRow]);
+    }
     setDeck(updatedDeck);
     setRows((prev) => prev - 1);
   };
@@ -112,8 +147,72 @@ export default function MakeDeckForm() {
     setDeck(updatedDeck);
   };
 
-  const AddNewDeck = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(deck);
+    if (deckId) {
+      await updateDeck();
+    } else {
+      await AddNewDeck();
+    }
+    setTimeout(() => {
+      navigate("/my-decks");
+    }, 1000);
+  };
+
+  const updateDeck = async () => {
+    try {
+      await axiosPrivate.put(`decks/${deckId}`, {
+        languageId: selectedLanguage.id,
+        difficultyLevelId: selectedDifficultyLevel.id,
+        nonPublic,
+      });
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when updating this deck. Did you fill in all the fields? ${err.msg}`
+      );
+    }
+
+    bulkUpdateCards();
+    bulkDeleteCards();
+  };
+
+  const bulkUpdateCards = async () => {
+    const newCards = deck?.filter((card) => !card.id);
+    const existingCards = deck?.filter((card) => card.id);
+
+    try {
+      await Promise.all(
+        existingCards.map((card) =>
+          axiosPrivate.put(`/cards/${card?.id}`, card)
+        )
+      );
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when updating cards. Does every card have both front and back? ${err.msg}`
+      );
+    }
+
+    bulkAddCards(deckId, newCards);
+  };
+
+  const bulkDeleteCards = async () => {
+    if (!cardsToDelete.length) {
+      return;
+    }
+    try {
+      await Promise.all(
+        cardsToDelete.map((card) => axiosPrivate.delete(`/cards/${card?.id}`))
+      );
+    } catch (err) {
+      console.log(err);
+      alert(`Something went wrong when removing a card. ${err.msg}`);
+    }
+  };
+
+  const AddNewDeck = async () => {
     try {
       const newDeck = await axiosPrivate.post("/decks", {
         authorId: user?.id,
@@ -122,20 +221,20 @@ export default function MakeDeckForm() {
         nonPublic,
       });
       const newDeckId = newDeck.data.id;
-      bulkAddCards(newDeckId);
-      navigate("/my-decks");
+
+      bulkAddCards(newDeckId, deck);
     } catch (err) {
       console.log(err);
       alert(
-        "Something went wrong when adding this deck. Did you fill in all the fields?"
+        `Something went wrong when adding this deck. Did you fill in all the fields? ${err.msg}`
       );
     }
   };
 
-  const bulkAddCards = async (deckId) => {
+  const bulkAddCards = async (deckId, cards) => {
     try {
       await Promise.all(
-        deck.map((card) =>
+        cards.map((card) =>
           axiosPrivate.post("/cards", {
             deckId,
             front: card.front,
@@ -146,17 +245,17 @@ export default function MakeDeckForm() {
     } catch (err) {
       console.log(err);
       alert(
-        "Something went wrong when adding cards. Did you fill in all the fields?"
+        `Something went wrong when adding cards. Does every card have both front and back? ${err.msg}`
       );
     }
   };
 
   return (
     <div className="pt-20 pb-10 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
-      <form className="my-4 mx-auto w-11/12 max-w-4xl" onSubmit={AddNewDeck}>
+      <form className="my-4 mx-auto w-11/12 max-w-4xl" onSubmit={handleSubmit}>
         <div className="flex flex-col items-center w-full sm:w-96 mx-auto p-4 mb-6 bg-pale-100 dark:bg-pale-800 shadow-lg rounded-md">
           <h1 className="text-center text-xl font-medium dark:text-white mb-2">
-            New Deck
+            {deckId ? "Edit Deck" : "New Deck"}
           </h1>
           <div>
             <div className="grid grid-cols-2 gap-2 items-center mb-2">
@@ -215,7 +314,7 @@ export default function MakeDeckForm() {
           type="submit"
           color="orange"
         >
-          Add Deck
+          {deckId ? "Update Deck" : "Add Deck"}
         </Button>
       </form>
     </div>

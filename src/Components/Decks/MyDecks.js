@@ -27,7 +27,7 @@ export default function MyDecks() {
             <OneDeck key={deck.id} deckInfo={deck} />
           ))}
 
-          <div className="flex flex-col items-center justify-center my-3 mx-3 w-80 h-64 p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
+          <div className="flex flex-col items-center justify-center my-3 mx-3 w-[360px] xs:w-[400px] h-64 min-h-fit p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
             <div className="font-semibold">Make a deck and earn XPs</div>
             <div className="text-sm font-light">
               +10 for each card in the deck
