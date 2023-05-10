@@ -1,15 +1,73 @@
-import { Outlet } from "react-router-dom";
-// import { useState } from "react";
+import { useEffect } from "react";
+import { useParams, Outlet } from "react-router-dom";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
+import usePracticeSettings from "../../Hooks/usePracticeSettings";
+import { Chip } from "@material-tailwind/react";
 
 export default function Practice() {
-  // const [seeBackFirst, setSeeBackFirst] = useState(false);
-  // const [shuffled, setShuffled] = useState(false);
+  const { deckId } = useParams();
+  const axiosPrivate = useAxiosPrivate();
+  const { practiceSettings, setPracticeSettings } = usePracticeSettings();
+
+  const chipColorChart = {
+    1: "light-green",
+    2: "green",
+    3: "orange",
+    4: "red",
+    5: "purple",
+  };
+
+  useEffect(() => {
+    pullDeckData();
+    pullCardsData();
+  }, []);
+
+  const pullDeckData = async () => {
+    try {
+      const currentDeck = await axiosPrivate.get(`/decks/${deckId}`);
+      setPracticeSettings((prev) => ({ ...prev, deck: currentDeck?.data }));
+    } catch (err) {
+      console.log(err);
+      alert(`Having troubel finding this deck. ${err.message}`);
+    }
+  };
+
+  const pullCardsData = async () => {
+    try {
+      const currentDeckCards = await axiosPrivate.get(`/cards/${deckId}`);
+      // Sorted by the card's % correct, in descending order, i.e. hardest cards last
+      const sortedCards = currentDeckCards?.data.sort(
+        (card, nextCard) =>
+          (card.numberOfTimesSeen / card.numberOfTimesCorrect || 0) -
+          (nextCard.numberOfTimesSeen / nextCard.numberOfTimesCorrect || 0)
+      );
+      setPracticeSettings((prev) => ({
+        ...prev,
+        cards: sortedCards,
+        nCards: sortedCards.length,
+      }));
+    } catch (err) {
+      console.log(err);
+      alert(`Having troubel finding cards under this deck. ${err.message}`);
+    }
+  };
+
+  [].sort(() => 0.5 - Math.random());
 
   return (
-    <div className="pt-20 pb-10 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
-      <h1 className="text-center text-xl font-medium dark:text-white mb-4">
-        Practice
-      </h1>
+    <div className="pt-20 pb-10 mb-4 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
+      <h1 className="text-center text-xl font-medium mb-2">Practice</h1>
+      <div className="flex items-center text-sm">
+        {practiceSettings?.cards?.length}{" "}
+        {practiceSettings?.cards?.length > 1 ? "cards" : "card"} in{" "}
+        {practiceSettings?.deck?.language?.name}{" "}
+        <Chip
+          className="ml-2"
+          color={chipColorChart[practiceSettings?.deck?.difficultyLevel?.id]}
+          value={practiceSettings?.deck?.difficultyLevel?.name || ""}
+          size="sm"
+        />
+      </div>
       <Outlet />
     </div>
   );

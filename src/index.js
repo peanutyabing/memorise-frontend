@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Context/AuthProvider.js";
 import { UserProvider } from "./Context/UserProvider.js";
+import { PracticeSettingsProvider } from "./Context/PracticeSettingsProvider.js";
 import RequireAuth from "./Components/RequireAuth.js";
 import PersistLogin from "./Components/PersistLogin.js";
 import Navbar from "./Components/Nav/Navbar.js";
@@ -22,37 +23,42 @@ root.render(
   <BrowserRouter>
     <AuthProvider>
       <UserProvider>
-        <Routes>
-          <Route element={<PersistLogin />}>
-            <Route element={<Navbar />}>
-              {/* Public routes */}
-              <Route path="/" element={<App />} />
-              <Route path="/sign-in" element={<SignInForm />} />
-              <Route path="/sign-up" element={<SignUpForm />} />
+        <PracticeSettingsProvider>
+          <Routes>
+            <Route element={<PersistLogin />}>
+              <Route element={<Navbar />}>
+                {/* Public routes */}
+                <Route path="/" element={<App />} />
+                <Route path="/sign-in" element={<SignInForm />} />
+                <Route path="/sign-up" element={<SignUpForm />} />
 
-              <Route element={<RequireAuth />}>
-                {/* Protected routes */}
-                <Route path="/my-decks" element={<MyDecks />} />
-                <Route path="/my-decks/new" element={<DeckForm />} />
-                <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />
-                <Route path="/my-decks/:deckId/practice" element={<Practice />}>
+                <Route element={<RequireAuth />}>
+                  {/* Protected routes */}
+                  <Route path="/my-decks" element={<MyDecks />} />
+                  <Route path="/my-decks/new" element={<DeckForm />} />
+                  <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />
                   <Route
-                    path="/my-decks/:deckId/practice/settings"
-                    element={<PracticeSettings />}
-                  />
-                  <Route
-                    path="/my-decks/:deckId/practice/:cardId"
-                    element={<PracticeCard />}
-                  />
+                    path="/my-decks/:deckId/practice"
+                    element={<Practice />}
+                  >
+                    <Route
+                      path="/my-decks/:deckId/practice/settings"
+                      element={<PracticeSettings />}
+                    />
+                    <Route
+                      path="/my-decks/:deckId/practice/:cardIndex"
+                      element={<PracticeCard />}
+                    />
+                  </Route>
                 </Route>
-              </Route>
 
-              {/* Catch-all for invalid URLs */}
-              {/* //// Placeholder (App) */}
-              <Route path="*" element={<Lost />} />
+                {/* Catch-all for invalid URLs */}
+                {/* //// Placeholder (App) */}
+                <Route path="*" element={<Lost />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
+          </Routes>
+        </PracticeSettingsProvider>
       </UserProvider>
     </AuthProvider>
   </BrowserRouter>
