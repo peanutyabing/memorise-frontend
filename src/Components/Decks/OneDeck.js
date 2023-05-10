@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Button } from "@material-tailwind/react";
 import {
@@ -9,13 +10,15 @@ import DifficultyRating from "./DifficultyRating.js";
 import CardsPreview from "./CardsPreview.js";
 
 export default function OneDeck({ deckInfo }) {
+  const navigate = useNavigate();
+
   return (
     <div className="my-3 mx-3 w-[360px] xs:w-[400px] h-64 min-h-fit p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
       {/* Card header */}
       <div className="flex justify-between items-center mb-2">
         <div className="font-bold text-lg">{deckInfo?.language?.name}</div>
         <div className="flex items-center">
-          <div className="flex items-center text-sm mr-3 hover:text-sky-500 hover:underline select-none cursor-pointer">
+          <div className="flex items-center text-sm mr-2 hover:text-sky-500 hover:underline select-none cursor-pointer">
             <LinkIcon className="h-3 w-3 mr-1" />
             <span className="font-semibold">
               {deckInfo?.author?.username}
@@ -36,7 +39,13 @@ export default function OneDeck({ deckInfo }) {
       <CardsPreview cards={deckInfo?.cards} deckId={deckInfo?.id} />
 
       <div className="mt-4 mb-2">
-        <Button color="orange" className="mr-[4%] w-[48%]">
+        <Button
+          color="orange"
+          className="mr-[4%] w-[48%]"
+          onClick={() => {
+            navigate(`./${deckInfo?.id}/practice/settings`);
+          }}
+        >
           Practice
         </Button>
         <Button color="orange" className="w-[48%]">

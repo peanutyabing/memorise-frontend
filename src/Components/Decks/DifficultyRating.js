@@ -4,9 +4,9 @@ import { AcademicCapIcon as UnfilledIcon } from "@heroicons/react/24/outline";
 export default function DifficultyRating(props) {
   const difficultyRating = parseInt(props.difficultyRating);
   const colorChart = {
-    1: "light-green-500",
-    2: "lime-500",
-    3: "amber-500",
+    1: "green-500",
+    2: "light-green-500",
+    3: "orange-500",
     4: "red-500",
     5: "purple-500",
   };
