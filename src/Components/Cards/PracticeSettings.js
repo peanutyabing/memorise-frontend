@@ -13,7 +13,10 @@ export default function PracticeSettings() {
     e.preventDefault();
     setPracticeSettings((prev) => ({ ...prev, seeBackFirst, shuffled }));
     if (shuffled) {
-      setPracticeSettings((prev) => ({ ...prev, cards: shuffle(prev.cards) }));
+      setPracticeSettings((prev) => ({
+        ...prev,
+        cardsQueue: shuffle(prev.cardsQueue),
+      }));
     }
     navigate("../1");
   };

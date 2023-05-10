@@ -17,7 +17,7 @@ export default function PracticeCard() {
 
   const [showOtherSide, setShowOtherSide] = useState(false);
 
-  const currentCard = practiceSettings?.cards[cardIndex - 1];
+  const currentCard = practiceSettings?.cardsQueue[cardIndex - 1];
 
   const displayCardSide = () => {
     if (
@@ -77,16 +77,33 @@ export default function PracticeCard() {
   };
 
   const flipCard = (known) => {
-    const cardsQueue = [...practiceSettings?.cards];
+    const cardsQueueToUpdate = [...practiceSettings?.cardsQueue];
     if (!known) {
-      cardsQueue.push(currentCard);
-      setPracticeSettings((prev) => ({ ...prev, cards: cardsQueue }));
+      cardsQueueToUpdate.push(currentCard);
+      setPracticeSettings((prev) => ({
+        ...prev,
+        cardsQueue: cardsQueueToUpdate,
+      }));
     }
     setShowOtherSide(true);
-    updateCardData(known);
+    updateRoundStats(known);
+    updateBackendCardData(known);
   };
 
-  const updateCardData = async (known) => {
+  const updateRoundStats = (known) => {
+    const statsToUpdate = [...practiceSettings.cards];
+    for (const card of statsToUpdate) {
+      if (card.id === currentCard.id) {
+        card.nSeenThisRound += 1;
+        if (known) {
+          card.nCorrectThisRound += 1;
+        }
+      }
+    }
+    setPracticeSettings((prev) => ({ ...prev, cards: statsToUpdate }));
+  };
+
+  const updateBackendCardData = async (known) => {
     const reqBody = {};
     // Get the latest card data from database
     try {
@@ -116,10 +133,10 @@ export default function PracticeCard() {
   const goToNextCard = () => {
     setShowOtherSide(false);
     cardIndex++;
-    if (cardIndex <= practiceSettings?.cards?.length) {
+    if (cardIndex <= practiceSettings?.cardsQueue?.length) {
       navigate(`../${cardIndex}`);
     } else {
-      navigate("../practice-summary");
+      navigate("../summary");
     }
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
+import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
 import OneDeck from "./OneDeck.js";
 import { Button } from "@material-tailwind/react";
 
@@ -8,9 +9,15 @@ export default function MyDecks() {
   const [userDecks, setUserDecks] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const { setPracticeSettings } = usePracticeSettings();
 
   useEffect(() => {
     getUserDecks();
+  }, []);
+
+  useEffect(() => {
+    // Clear the practice round data in Context
+    setPracticeSettings({});
   }, []);
 
   const getUserDecks = async () => {

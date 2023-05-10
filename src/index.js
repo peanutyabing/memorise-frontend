@@ -15,6 +15,7 @@ import DeckForm from "./Components/Decks/DeckForm.js";
 import Practice from "./Components/Cards/Practice.js";
 import PracticeSettings from "./Components/Cards/PracticeSettings.js";
 import PracticeCard from "./Components/Cards/PracticeCard.js";
+import PracticeSummary from "./Components/Cards/PracticeSummary.js";
 import Lost from "./Components/Lost.js";
 import "./index.css";
 
@@ -49,11 +50,14 @@ root.render(
                       path="/my-decks/:deckId/practice/:cardIndex"
                       element={<PracticeCard />}
                     />
+                    <Route
+                      path="/my-decks/:deckId/practice/summary"
+                      element={<PracticeSummary />}
+                    />
                   </Route>
                 </Route>
 
                 {/* Catch-all for invalid URLs */}
-                {/* //// Placeholder (App) */}
                 <Route path="*" element={<Lost />} />
               </Route>
             </Route>

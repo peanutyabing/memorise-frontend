@@ -34,16 +34,24 @@ export default function Practice() {
 
   const pullCardsData = async () => {
     try {
-      const currentDeckCards = await axiosPrivate.get(`/cards/${deckId}`);
+      const currentDeckCardsRes = await axiosPrivate.get(`/cards/${deckId}`);
+      const currentDeckCards = currentDeckCardsRes?.data;
+      currentDeckCards.forEach((card) => {
+        card.nSeenThisRound = 0;
+        card.nCorrectThisRound = 0;
+      });
+
       // Sorted by the card's % correct, in descending order, i.e. hardest cards last
-      const sortedCards = currentDeckCards?.data.sort(
+      const sortedCards = currentDeckCards.sort(
         (card, nextCard) =>
           (card.numberOfTimesSeen / card.numberOfTimesCorrect || 0) -
           (nextCard.numberOfTimesSeen / nextCard.numberOfTimesCorrect || 0)
       );
+
       setPracticeSettings((prev) => ({
         ...prev,
-        cards: sortedCards,
+        cards: currentDeckCards,
+        cardsQueue: sortedCards,
         nCards: sortedCards.length,
       }));
     } catch (err) {
@@ -55,7 +63,7 @@ export default function Practice() {
   [].sort(() => 0.5 - Math.random());
 
   return (
-    <div className="pt-20 pb-10 mb-4 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
+    <div className="pt-20 pb-10 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
       <h1 className="text-center text-xl font-medium mb-2">Practice</h1>
       <div className="flex items-center text-sm">
         {practiceSettings?.nCards}{" "}
