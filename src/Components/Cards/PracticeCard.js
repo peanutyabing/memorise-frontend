@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import usePracticeSettings from "../../Hooks/usePracticeSettings";
+import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import { Button } from "@material-tailwind/react";
 import {
   CheckCircleIcon,
@@ -12,6 +13,7 @@ export default function PracticeCard() {
   let { cardIndex } = useParams();
   const navigate = useNavigate();
   const { practiceSettings, setPracticeSettings } = usePracticeSettings();
+  const axiosPrivate = useAxiosPrivate();
 
   const [showOtherSide, setShowOtherSide] = useState(false);
 
@@ -81,6 +83,34 @@ export default function PracticeCard() {
       setPracticeSettings((prev) => ({ ...prev, cards: cardsQueue }));
     }
     setShowOtherSide(true);
+    updateCardData(known);
+  };
+
+  const updateCardData = async (known) => {
+    const reqBody = {};
+    // Get the latest card data from database
+    try {
+      const currentCardRes = await axiosPrivate.get(
+        `/cards/${practiceSettings?.deck?.id}/${currentCard?.id}`
+      );
+      reqBody.numberOfTimesSeen = currentCardRes?.data?.numberOfTimesSeen + 1;
+      reqBody.lastSeen = new Date();
+      if (known) {
+        reqBody.numberOfTimesCorrect =
+          currentCardRes?.data?.numberOfTimesCorrect + 1;
+      }
+    } catch (err) {
+      console.log("While requesting for latest data of the current card", err);
+    }
+    // Send updated data back to database
+    try {
+      await axiosPrivate.put(`/cards/${currentCard?.id}`, reqBody);
+    } catch (err) {
+      console.log(
+        "While requesting for an update of card data on the backend",
+        err
+      );
+    }
   };
 
   const goToNextCard = () => {
@@ -97,7 +127,7 @@ export default function PracticeCard() {
     <div>
       <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl">
         <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
-        <div className="absolute left-0 top-0 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-100 dark:bg-blue-gray-900">
+        <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-100 dark:bg-blue-gray-900">
           {displayCardSide()}
         </div>
       </div>

@@ -57,7 +57,7 @@ export default function PracticeSettings() {
       <Button
         className="mt-4 font-quicksand text-sm"
         type="submit"
-        color="teal"
+        color="orange"
       >
         I'm ready!
       </Button>

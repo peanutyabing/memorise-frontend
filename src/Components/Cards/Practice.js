@@ -58,8 +58,8 @@ export default function Practice() {
     <div className="pt-20 pb-10 mb-4 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
       <h1 className="text-center text-xl font-medium mb-2">Practice</h1>
       <div className="flex items-center text-sm">
-        {practiceSettings?.cards?.length}{" "}
-        {practiceSettings?.cards?.length > 1 ? "cards" : "card"} in{" "}
+        {practiceSettings?.nCards}{" "}
+        {practiceSettings?.nCards > 1 ? "cards" : "card"} in{" "}
         {practiceSettings?.deck?.language?.name}{" "}
         <Chip
           className="ml-2"
