@@ -1,33 +1,11 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
-import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
-import useUser from "../../Hooks/useUser.js";
 import { SummaryChart } from "./SummaryChart.js";
 import { Button } from "@material-tailwind/react";
 
 export default function PracticeSummary() {
   const navigate = useNavigate();
   const { practiceSettings } = usePracticeSettings();
-  const axiosPrivate = useAxiosPrivate();
-  const { setUser } = useUser();
-
-  useEffect(() => {
-    incrementXp(practiceSettings?.nCards);
-  }, []);
-
-  const incrementXp = async (numberOfCards) => {
-    const xpIncrement = 5 * numberOfCards;
-    try {
-      const updatedProfileRes = await axiosPrivate.put("/profile/xp", {
-        xpIncrement,
-      });
-      setUser(updatedProfileRes.data);
-    } catch (err) {
-      console.log(err);
-      alert(`Oops. We didn't manage to update your XP. ${err.message}`);
-    }
-  };
 
   const generateChartDisplay = () => {
     const maxY =

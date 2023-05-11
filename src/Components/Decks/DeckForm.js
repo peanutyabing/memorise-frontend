@@ -188,18 +188,31 @@ export default function DeckForm() {
   };
 
   const incrementXp = async (numberOfCards) => {
-    const xpIncrement = 10 * numberOfCards;
     try {
-      const updatedProfileRes = await axiosPrivate.put("/profile/xp", {
-        xpIncrement,
+      await axiosPrivate.post("/xp", {
+        xpActivityId: 3,
+        numOfUnits: numberOfCards,
       });
-      setUser(updatedProfileRes.data);
+
+      updateUserXpDisplay();
+
       alert(
-        `Congrats! You just earned ${xpIncrement}xp for adding a new deck.`
+        `Congrats! You just earned ${
+          numberOfCards * 10
+        }xp for adding a new deck.`
       );
     } catch (err) {
       console.log(err);
       alert(`Oops. We didn't manage to update your XP. ${err.message}`);
+    }
+  };
+
+  const updateUserXpDisplay = async () => {
+    try {
+      const updatedProfileRes = await axiosPrivate.get("/profile");
+      setUser((prev) => ({ ...prev, xp: updatedProfileRes?.data?.xp }));
+    } catch (err) {
+      console.log(err);
     }
   };
 

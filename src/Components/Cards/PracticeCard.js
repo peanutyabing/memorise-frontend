@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
+import useUser from "../../Hooks/useUser.js";
 import { Button } from "@material-tailwind/react";
 import {
   CheckCircleIcon,
@@ -14,6 +15,7 @@ export default function PracticeCard() {
   const navigate = useNavigate();
   const { practiceSettings, setPracticeSettings } = usePracticeSettings();
   const axiosPrivate = useAxiosPrivate();
+  const { setUser } = useUser();
 
   const [showOtherSide, setShowOtherSide] = useState(false);
 
@@ -136,7 +138,30 @@ export default function PracticeCard() {
     if (cardIndex <= practiceSettings?.cardsQueue?.length) {
       navigate(`../${cardIndex}`);
     } else {
+      incrementXp(practiceSettings?.nCards);
       navigate("../summary");
+    }
+  };
+
+  const incrementXp = async (numberOfCards) => {
+    try {
+      await axiosPrivate.post("/xp", {
+        xpActivityId: 4,
+        numOfUnits: numberOfCards,
+      });
+    } catch (err) {
+      console.log(err);
+      alert(`Oops. We didn't manage to update your XP. ${err.message}`);
+    }
+    updateUserXpDisplay();
+  };
+
+  const updateUserXpDisplay = async () => {
+    try {
+      const updatedProfileRes = await axiosPrivate.get("/profile");
+      setUser((prev) => ({ ...prev, xp: updatedProfileRes?.data?.xp }));
+    } catch (err) {
+      console.log(err);
     }
   };
 
