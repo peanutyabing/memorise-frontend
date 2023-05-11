@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
 import { SummaryChart } from "./SummaryChart.js";
@@ -6,6 +7,12 @@ import { Button } from "@material-tailwind/react";
 export default function PracticeSummary() {
   const navigate = useNavigate();
   const { practiceSettings } = usePracticeSettings();
+
+  useEffect(() => {
+    if (practiceSettings && !practiceSettings.practiceStarted) {
+      navigate("/my-decks");
+    }
+  }, []);
 
   const generateChartDisplay = () => {
     const maxY =
@@ -78,7 +85,7 @@ export default function PracticeSummary() {
           <div className="text-xs">"I know this"</div>
         </div>
       </div>
-      {generateChartDisplay()}
+      {practiceSettings?.cards && generateChartDisplay()}
       <Button
         className="mt-6 font-quicksand text-sm"
         color="orange"

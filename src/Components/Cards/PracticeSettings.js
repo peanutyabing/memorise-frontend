@@ -11,7 +11,12 @@ export default function PracticeSettings() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPracticeSettings((prev) => ({ ...prev, seeBackFirst, shuffled }));
+    setPracticeSettings((prev) => ({
+      ...prev,
+      seeBackFirst,
+      shuffled,
+      practiceStarted: true,
+    }));
     if (shuffled) {
       setPracticeSettings((prev) => ({
         ...prev,
