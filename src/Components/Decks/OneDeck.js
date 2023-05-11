@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { Button } from "@material-tailwind/react";
+import { Button, Tooltip } from "@material-tailwind/react";
 import {
   LinkIcon,
   HeartIcon,
@@ -38,17 +38,35 @@ export default function OneDeck({ deckInfo }) {
 
       <CardsPreview cards={deckInfo?.cards} deckId={deckInfo?.id} />
 
-      <div className="mt-4 mb-2">
-        <Button
-          color="orange"
-          className="mr-[4%] w-[48%]"
-          onClick={() => {
-            navigate(`./${deckInfo?.id}/practice/settings`);
-          }}
+      <div className="flex mt-4 mb-2">
+        <Tooltip
+          content={
+            <div className="w-64">
+              <div color="white" className="font-medium">
+                Practice makes perfect!
+              </div>
+              <div
+                variant="small"
+                color="white"
+                className="font-normal opacity-80"
+              >
+                Run through the deck and earn 5 XP for each card.
+              </div>
+            </div>
+          }
+          placement="bottom"
         >
-          Practice
-        </Button>
-        <Button color="orange" className="w-[48%]">
+          <Button
+            color="orange"
+            className="mr-[4%] w-[48%]"
+            onClick={() => {
+              navigate(`./${deckInfo?.id}/practice/settings`);
+            }}
+          >
+            Practice
+          </Button>
+        </Tooltip>
+        <Button color="orange" className="w-[48%]" disabled>
           Challenge
         </Button>
       </div>

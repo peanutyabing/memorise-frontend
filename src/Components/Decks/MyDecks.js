@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
 import OneDeck from "./OneDeck.js";
-import { Button } from "@material-tailwind/react";
+import { Button, Tooltip } from "@material-tailwind/react";
 
 export default function MyDecks() {
   const [userDecks, setUserDecks] = useState([]);
@@ -36,18 +36,33 @@ export default function MyDecks() {
 
           <div className="flex flex-col items-center justify-center my-3 mx-3 w-[360px] xs:w-[400px] h-64 min-h-fit p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
             <div className="font-semibold">Make a deck and earn XPs</div>
-            <div className="text-sm font-light">
-              +10 for each card in the deck
-            </div>
-            <Button
-              color="orange"
-              className="w-3/6 mt-4"
-              onClick={() => {
-                navigate("./new");
-              }}
+            <Tooltip
+              content={
+                <div className="w-64">
+                  <div color="white" className="font-medium">
+                    Expand your knowledge
+                  </div>
+                  <div
+                    variant="small"
+                    color="white"
+                    className="font-normal opacity-80"
+                  >
+                    Earn 5 XP for each new card.
+                  </div>
+                </div>
+              }
+              placement="bottom"
             >
-              New Deck
-            </Button>
+              <Button
+                color="orange"
+                className="w-3/6 mt-4"
+                onClick={() => {
+                  navigate("./new");
+                }}
+              >
+                New Deck
+              </Button>
+            </Tooltip>
           </div>
         </div>
       </main>
