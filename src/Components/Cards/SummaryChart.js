@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
@@ -15,15 +16,14 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
-ChartJS.defaults.color =
-  document.documentElement.classList[0] === "dark" ? "#f8f7f3" : "#16181b";
 ChartJS.defaults.font.size = 13;
 ChartJS.defaults.font.family = "Quicksand";
 
-export function SummaryChart({ roundStats }) {
+export function SummaryChart({ roundStats, maxY }) {
   const labels = roundStats?.map((card) => card.front);
   const nSeen = roundStats?.map((card) => card.nSeenThisRound);
   const nCorrect = roundStats?.map((card) => card.nCorrectThisRound);
@@ -32,28 +32,34 @@ export function SummaryChart({ roundStats }) {
     responsive: true,
     scales: {
       y: {
+        display: false,
         min: 0,
-        max: Math.max(...nSeen),
-        stepSize: 1,
-        ticks: {
-          precision: 0,
-        },
-        gridLines: {
-          color: "rgba(0, 0, 0, 0)",
-        },
+        max: maxY,
       },
       x: {
-        gridLines: {
-          color: "rgba(0, 0, 0, 0)",
+        ticks: {
+          color: "#9e9e9e",
+        },
+        grid: {
+          drawBorder: false,
+          display: false,
         },
       },
     },
     plugins: {
       legend: {
-        position: "top",
+        display: false,
       },
       title: {
         display: false,
+      },
+      datalabels: {
+        display: true,
+        color: "#9e9e9e",
+        formatter: Math.round,
+        anchor: "end",
+        offset: -20,
+        align: "start",
       },
     },
   };
