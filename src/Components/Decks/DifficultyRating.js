@@ -30,7 +30,7 @@ export default function DifficultyRating(props) {
   };
 
   return (
-    <div className="flex items-center gap-2 mb-2">
+    <div className="flex items-center gap-2">
       {displayDifficulty()}
       <div className="text-sm">{props.difficultyLevel}</div>
     </div>

@@ -31,12 +31,19 @@ export default function OneDeck({ deckInfo }) {
         </div>
       </div>
 
-      <DifficultyRating
-        difficultyRating={deckInfo?.difficultyLevel?.id}
-        difficultyLevel={deckInfo?.difficultyLevel?.name}
-      />
+      <div className="mb-2">
+        <DifficultyRating
+          difficultyRating={deckInfo?.difficultyLevel?.id}
+          difficultyLevel={deckInfo?.difficultyLevel?.name}
+        />
+      </div>
 
-      <CardsPreview cards={deckInfo?.cards} deckId={deckInfo?.id} />
+      <CardsPreview
+        cards={deckInfo?.cards}
+        deckId={deckInfo?.id}
+        displayLimit={8}
+        allowEdit={true}
+      />
 
       <div className="flex mt-4 mb-2">
         <Tooltip

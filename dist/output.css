@@ -910,6 +910,16 @@ html {
   margin-bottom: 1.5rem;
 }
 
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .-mb-6 {
   margin-bottom: -1.5rem;
 }
@@ -1211,6 +1221,12 @@ html {
   height: 17rem;
 }
 
+.h-fit {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
@@ -1392,6 +1408,12 @@ html {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .min-w-0 {
@@ -1738,6 +1760,10 @@ html {
   place-items: center;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
 .items-end {
   align-items: flex-end;
 }
@@ -1780,6 +1806,14 @@ html {
 
 .gap-6 {
   gap: 1.5rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.gap-5 {
+  gap: 1.25rem;
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -3759,6 +3793,10 @@ html {
   outline-width: 2px;
 }
 
+.outline-1 {
+  outline-width: 1px;
+}
+
 .outline-offset-2 {
   outline-offset: 2px;
 }
@@ -3773,6 +3811,22 @@ html {
 
 .outline-white {
   outline-color: #f8f7f3;
+}
+
+.outline-pale-100 {
+  outline-color: #cfd8dc70;
+}
+
+.outline-gray-500 {
+  outline-color: #9e9e9e;
+}
+
+.outline-gray-500\/50 {
+  outline-color: rgb(158 158 158 / 0.5);
+}
+
+.outline-yellow {
+  outline-color: #f8b500;
 }
 
 .ring {
@@ -6577,6 +6631,10 @@ html {
 
 :is(.dark .dark\:outline-black) {
   outline-color: #16181b;
+}
+
+:is(.dark .dark\:outline-pale-800) {
+  outline-color: #37474f70;
 }
 
 :is(.dark .dark\:focus\:text-white:focus) {
