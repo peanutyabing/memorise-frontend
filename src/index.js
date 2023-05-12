@@ -16,6 +16,7 @@ import Practice from "./Components/Cards/Practice.js";
 import PracticeSettings from "./Components/Cards/PracticeSettings.js";
 import PracticeCard from "./Components/Cards/PracticeCard.js";
 import PracticeSummary from "./Components/Cards/PracticeSummary.js";
+import Feed from "./Components/Feed/Feed.js";
 import Lost from "./Components/Lost.js";
 import "./index.css";
 
@@ -32,6 +33,7 @@ root.render(
                 <Route path="/" element={<App />} />
                 <Route path="/sign-in" element={<SignInForm />} />
                 <Route path="/sign-up" element={<SignUpForm />} />
+                <Route path="/feed" element={<Feed />} />
 
                 <Route element={<RequireAuth />}>
                   {/* Protected routes */}

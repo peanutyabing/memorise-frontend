@@ -19,11 +19,15 @@ export default function Navbar() {
       url: "/",
       current: location.pathname === "/",
     },
-    { name: "Feed", url: "/", current: false },
     {
       name: "My Decks",
       url: "/my-decks",
       current: location.pathname.includes("/my-decks"),
+    },
+    {
+      name: "Feed",
+      url: "/feed",
+      current: location.pathname.includes("/feed"),
     },
     { name: "Social", url: "/", current: false },
   ];

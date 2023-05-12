@@ -104,7 +104,6 @@ export default function DeckForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(deck);
     if (deckId) {
       await updateDeck();
     } else {

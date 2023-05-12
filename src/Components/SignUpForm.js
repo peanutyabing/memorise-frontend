@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth.js";
+import useUser from "../Hooks/useUser.js";
 import { axiosDefault } from "../Utils/axios.js";
 import useAxiosPrivate from "../Hooks/useAxiosPrivate.js";
 import { storage } from "../Firebase.js";
@@ -17,6 +18,7 @@ import PasswordStrengthBar from "react-password-strength-bar";
 
 export default function SignInForm() {
   const { setAuth, trustDevice, setTrustDevice } = useAuth();
+  const { setUser } = useUser();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const [imageUrl, setImageUrl] = useState("");
@@ -105,6 +107,8 @@ export default function SignInForm() {
       setAuth({ token });
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
+      incrementXp();
     } catch (err) {
       console.log(err);
       alert(err.message);
@@ -114,13 +118,36 @@ export default function SignInForm() {
     navigate("/"); //// navigate to tutorial instead
   };
 
+  const incrementXp = async () => {
+    try {
+      const xpTransactionRes = await axiosPrivate.post("/xp", {
+        xpActivityId: 1, // Create account
+      });
+      if (xpTransactionRes?.data?.id) {
+        updateUserXpDisplay();
+        alert(`Congrats! You just earned ${100}xp for creating an account.`);
+      }
+    } catch (err) {
+      console.log(err);
+      alert(`Oops. We didn't manage to update your XP. ${err.message}`);
+    }
+  };
+
+  const updateUserXpDisplay = async () => {
+    try {
+      const updatedProfileRes = await axiosPrivate.get("/profile");
+      setUser((prev) => ({ ...prev, xp: updatedProfileRes?.data?.xp }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const completeProfile = async () => {
     try {
       await axiosPrivate.put("/profile", {
         imageUrl,
         firstName,
         lastName,
-        xp: 100,
         lastLoggedIn: new Date(),
       });
     } catch (err) {

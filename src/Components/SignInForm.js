@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth.js";
+import useUser from "../Hooks/useUser.js";
 import { axiosDefault } from "../Utils/axios";
+import useAxiosPrivate from "../Hooks/useAxiosPrivate.js";
 import { Card, Input, Checkbox, Button } from "@material-tailwind/react";
 
 export default function SignInForm() {
   const { setAuth, trustDevice, setTrustDevice } = useAuth();
+  const { setUser } = useUser();
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -39,8 +43,33 @@ export default function SignInForm() {
       setAuth({ token });
       setEmail("");
       setPassword("");
+      incrementXp();
       navigate(from, { replace: true });
     } catch (err) {}
+  };
+
+  const incrementXp = async () => {
+    try {
+      const xpTransactionRes = await axiosPrivate.post("/xp", {
+        xpActivityId: 2, // Daily check-in
+      });
+      if (xpTransactionRes?.data?.id) {
+        updateUserXpDisplay();
+        alert(`Congrats! You just earned ${10}xp for today's check-in.`);
+      }
+    } catch (err) {
+      console.log(err);
+      alert(`Oops. We didn't manage to update your XP. ${err.message}`);
+    }
+  };
+
+  const updateUserXpDisplay = async () => {
+    try {
+      const updatedProfileRes = await axiosPrivate.get("/profile");
+      setUser((prev) => ({ ...prev, xp: updatedProfileRes?.data?.xp }));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
