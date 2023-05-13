@@ -8,8 +8,11 @@ import RequireAuth from "./Components/RequireAuth.js";
 import PersistLogin from "./Components/PersistLogin.js";
 import Navbar from "./Components/Nav/Navbar.js";
 import App from "./App.js";
-import SignInForm from "./Components/SignInForm.js";
-import SignUpForm from "./Components/SignUpForm.js";
+import SignInForm from "./Components/Profile/SignInForm.js";
+import SignUpForm from "./Components/Profile/SignUpForm.js";
+import UserInterestsForm from "./Components/Profile/UserInterestsForm.js";
+import UsersOwnProfile from "./Components/Profile/UsersOwnProfile.js";
+import OtherUsersProfile from "./Components/Profile/OtherUsersProfile.js";
 import MyDecks from "./Components/Decks/MyDecks.js";
 import DeckForm from "./Components/Decks/DeckForm.js";
 import Practice from "./Components/Cards/Practice.js";
@@ -34,11 +37,21 @@ root.render(
                 <Route path="/" element={<App />} />
                 <Route path="/sign-in" element={<SignInForm />} />
                 <Route path="/sign-up" element={<SignUpForm />} />
+                <Route
+                  path="/profile/:userId"
+                  element={<OtherUsersProfile />}
+                />
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/feed/:deckId" element={<DeckDetails />} />
 
                 <Route element={<RequireAuth />}>
                   {/* Protected routes */}
+                  <Route path="/interests" element={<UserInterestsForm />} />
+                  <Route
+                    path="/edit-interests"
+                    element={<UserInterestsForm />}
+                  />
+                  <Route path="/my-profile" element={<UsersOwnProfile />} />
                   <Route path="/my-decks" element={<MyDecks />} />
                   <Route path="/my-decks/new" element={<DeckForm />} />
                   <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />

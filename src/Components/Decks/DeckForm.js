@@ -64,7 +64,7 @@ export default function DeckForm() {
   const getLanguages = async () => {
     try {
       const languagesRes = await axiosDefault.get("/languages");
-      setLanguages(languagesRes.data);
+      setLanguages(languagesRes?.data);
     } catch (err) {
       console.log(err);
       alert(
@@ -76,11 +76,11 @@ export default function DeckForm() {
   const getDifficultyLevels = async () => {
     try {
       const difficultyLevelsRes = await axiosDefault.get("/difficulty-levels");
-      setDifficultyLevels(difficultyLevelsRes.data);
+      setDifficultyLevels(difficultyLevelsRes?.data);
     } catch (err) {
       console.log(err);
       alert(
-        `Something went wrong when loading the languages. Please try again later. ${err.message}`
+        `Something went wrong when loading the difficulty levels. Please try again later. ${err.message}`
       );
     }
   };
@@ -384,18 +384,20 @@ export default function DeckForm() {
         >
           <PlusCircleIcon className="w-6 h-6 mr-1" /> New Row
         </Button>
-        <Button
-          className="mt-4 font-quicksand text-sm"
-          fullWidth
-          type="submit"
-          color="orange"
-        >
-          {deckId
-            ? location.pathname.includes("edit")
-              ? "Update Deck"
-              : "Fork Deck"
-            : "Add Deck"}
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            className="mt-4 mx-auto font-quicksand text-sm"
+            size="sm"
+            type="submit"
+            color="orange"
+          >
+            {deckId
+              ? location.pathname.includes("edit")
+                ? "Update Deck"
+                : "Fork Deck"
+              : "Add Deck"}
+          </Button>
+        </div>
       </form>
     </div>
   );

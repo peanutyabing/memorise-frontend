@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../Hooks/useAuth.js";
-import useUser from "../Hooks/useUser.js";
-import { axiosDefault } from "../Utils/axios.js";
-import useAxiosPrivate from "../Hooks/useAxiosPrivate.js";
-import { storage } from "../Firebase.js";
+import useAuth from "../../Hooks/useAuth.js";
+import useUser from "../../Hooks/useUser.js";
+import { axiosDefault } from "../../Utils/axios.js";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
+import { storage } from "../../Firebase.js";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import {
   Card,
@@ -21,6 +21,7 @@ export default function SignInForm() {
   const { setUser } = useUser();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
+
   const [imageUrl, setImageUrl] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -115,7 +116,7 @@ export default function SignInForm() {
     }
 
     await completeProfile();
-    navigate("/"); //// navigate to tutorial instead
+    navigate("/interests");
   };
 
   const incrementXp = async () => {

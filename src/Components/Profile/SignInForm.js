@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import useAuth from "../Hooks/useAuth.js";
-import useUser from "../Hooks/useUser.js";
-import { axiosDefault } from "../Utils/axios";
-import useAxiosPrivate from "../Hooks/useAxiosPrivate.js";
+import useAuth from "../../Hooks/useAuth.js";
+import useUser from "../../Hooks/useUser.js";
+import { axiosDefault } from "../../Utils/axios.js";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import { Card, Input, Checkbox, Button } from "@material-tailwind/react";
 
 export default function SignInForm() {

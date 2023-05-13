@@ -690,6 +690,11 @@ html {
   bottom: 0px;
 }
 
+.inset-x-0 {
+  left: 0px;
+  right: 0px;
+}
+
 .-left-1 {
   left: -0.25rem;
 }
@@ -820,6 +825,30 @@ html {
 
 .top-\[4\%\] {
   top: 4%;
+}
+
+.end-0 {
+  inset-inline-end: 0px;
+}
+
+.end-0\.5 {
+  inset-inline-end: 0.125rem;
+}
+
+.bottom-1 {
+  bottom: 0.25rem;
+}
+
+.top-1 {
+  top: 0.25rem;
+}
+
+.top-4 {
+  top: 1rem;
+}
+
+.top-8 {
+  top: 2rem;
 }
 
 .z-10 {
@@ -1069,6 +1098,14 @@ html {
   margin-top: 1px;
 }
 
+.mt-0 {
+  margin-top: 0px;
+}
+
+.mt-0\.5 {
+  margin-top: 0.125rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -1214,6 +1251,14 @@ html {
 
 .h-24 {
   height: 6rem;
+}
+
+.h-56 {
+  height: 14rem;
+}
+
+.h-40 {
+  height: 10rem;
 }
 
 .max-h-60 {
@@ -1425,6 +1470,31 @@ html {
   width: 9rem;
 }
 
+.w-24 {
+  width: 6rem;
+}
+
+.w-96 {
+  width: 24rem;
+}
+
+.w-min {
+  width: -webkit-min-content;
+  width: min-content;
+}
+
+.w-5\/12 {
+  width: 41.666667%;
+}
+
+.w-\[46\%\] {
+  width: 46%;
+}
+
+.w-\[47\%\] {
+  width: 47%;
+}
+
 .min-w-0 {
   min-width: 0px;
 }
@@ -1543,6 +1613,14 @@ html {
 
 .max-w-md {
   max-width: 28rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
 }
 
 .flex-1 {
@@ -1793,6 +1871,10 @@ html {
   justify-content: space-between;
 }
 
+.justify-items-start {
+  justify-items: start;
+}
+
 .justify-items-center {
   justify-items: center;
 }
@@ -1815,6 +1897,15 @@ html {
 
 .gap-6 {
   gap: 1.5rem;
+}
+
+.gap-x-4 {
+  -webkit-column-gap: 1rem;
+          column-gap: 1rem;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem;
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -2027,6 +2118,11 @@ html {
   border-bottom-right-radius: 0px;
 }
 
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -2065,6 +2161,10 @@ html {
 
 .border-r {
   border-right-width: 1px;
+}
+
+.border-b-2 {
+  border-bottom-width: 2px;
 }
 
 .border-solid {
@@ -2196,6 +2296,10 @@ html {
 
 .border-pale-800 {
   border-color: #37474f70;
+}
+
+.border-pale-500 {
+  border-color: #607d8b70;
 }
 
 .\!border-t-transparent {
@@ -2613,6 +2717,10 @@ html {
 
 .bg-white\/50 {
   background-color: rgb(248 247 243 / 0.5);
+}
+
+.bg-pale-500 {
+  background-color: #607d8b70;
 }
 
 .bg-opacity-100 {
@@ -3034,6 +3142,18 @@ html {
 
 .pt-px {
   padding-top: 1px;
+}
+
+.pt-8 {
+  padding-top: 2rem;
+}
+
+.pt-12 {
+  padding-top: 3rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
 }
 
 .text-left {
@@ -3810,6 +3930,10 @@ html {
   outline-width: 2px;
 }
 
+.outline-4 {
+  outline-width: 4px;
+}
+
 .outline-offset-2 {
   outline-offset: 2px;
 }
@@ -3832,6 +3956,34 @@ html {
 
 .outline-yellow {
   outline-color: #f8b500;
+}
+
+.outline-pale-100 {
+  outline-color: #cfd8dc70;
+}
+
+.outline-pale-200 {
+  outline-color: #b0bec570;
+}
+
+.outline-pale-800 {
+  outline-color: #37474f70;
+}
+
+.outline-pale-700 {
+  outline-color: #455a6470;
+}
+
+.outline-orange-500\/50 {
+  outline-color: rgb(255 152 0 / 0.5);
+}
+
+.outline-orange-500 {
+  outline-color: #ff9800;
+}
+
+.outline-pale-500 {
+  outline-color: #607d8b70;
 }
 
 .ring {
@@ -6577,8 +6729,33 @@ html {
   color: rgb(96 125 139 / var(--tw-text-opacity));
 }
 
+:is(.dark .dark\:border-b-2) {
+  border-bottom-width: 2px;
+}
+
+:is(.dark .dark\:border-r-2) {
+  border-right-width: 2px;
+}
+
 :is(.dark .dark\:border-pale-100) {
   border-color: #cfd8dc70;
+}
+
+:is(.dark .dark\:border-pale-200) {
+  border-color: #b0bec570;
+}
+
+:is(.dark .dark\:border-pale-700) {
+  border-color: #455a6470;
+}
+
+:is(.dark .dark\:border-pale-500) {
+  border-color: #607d8b70;
+}
+
+:is(.dark .dark\:border-b-black) {
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(22 24 27 / var(--tw-border-opacity));
 }
 
 :is(.dark .dark\:bg-amber-800) {
@@ -6617,6 +6794,10 @@ html {
   background-color: #37474f70;
 }
 
+:is(.dark .dark\:bg-pale-200) {
+  background-color: #b0bec570;
+}
+
 :is(.dark .dark\:text-black) {
   --tw-text-opacity: 1;
   color: rgb(22 24 27 / var(--tw-text-opacity));
@@ -6648,6 +6829,18 @@ html {
 
 :is(.dark .dark\:outline-black) {
   outline-color: #16181b;
+}
+
+:is(.dark .dark\:outline-pale-800) {
+  outline-color: #37474f70;
+}
+
+:is(.dark .dark\:outline-pale-100) {
+  outline-color: #cfd8dc70;
+}
+
+:is(.dark .dark\:outline-pale-200) {
+  outline-color: #b0bec570;
 }
 
 :is(.dark .dark\:hover\:bg-pale-800:hover) {
@@ -6745,6 +6938,14 @@ html {
 
   .xs\:w-\[400px\] {
     width: 400px;
+  }
+
+  .xs\:w-80 {
+    width: 20rem;
+  }
+
+  .xs\:w-96 {
+    width: 24rem;
   }
 
   .xs\:flex-nowrap {
