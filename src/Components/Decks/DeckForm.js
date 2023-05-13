@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { axiosDefault } from "../../Utils/axios.js";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import useUser from "../../Hooks/useUser.js";
@@ -9,6 +9,7 @@ import FormSelectField from "./FormSelectField.js";
 
 export default function DeckForm() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { deckId } = useParams();
   const { user, setUser } = useUser();
   const axiosPrivate = useAxiosPrivate();
@@ -19,6 +20,7 @@ export default function DeckForm() {
   const [selectedLanguage, setSelectedLanguage] = useState({});
   const [selectedDifficultyLevel, setSelectedDifficultyLevel] = useState({});
   const [nonPublic, setNonPulic] = useState(false);
+  const [userForkedFrom, setUserForkedFrom] = useState({});
   const [deck, setDeck] = useState([]);
   const [rows, setRows] = useState(5);
   const [cardsToDelete, setCardsToDelete] = useState([]);
@@ -32,10 +34,11 @@ export default function DeckForm() {
 
   const pullDeckData = async () => {
     try {
-      const currentDeck = await axiosPrivate.get(`/decks/${deckId}`);
+      const currentDeck = await axiosDefault.get(`/decks/${deckId}`);
       setSelectedLanguage(currentDeck?.data?.language);
       setSelectedDifficultyLevel(currentDeck?.data?.difficultyLevel);
       setNonPulic(currentDeck?.data?.nonPublic);
+      setUserForkedFrom(currentDeck?.data?.user);
     } catch (err) {
       console.log(err);
       alert(`Having troubel finding this deck. ${err.message}`);
@@ -104,8 +107,10 @@ export default function DeckForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (deckId) {
+    if (deckId && location.pathname.includes("edit")) {
       await updateDeck();
+    } else if (deckId && location.pathname.includes("fork")) {
+      await forkDeck();
     } else {
       await addNewDeck();
     }
@@ -166,6 +171,26 @@ export default function DeckForm() {
     }
   };
 
+  const forkDeck = async () => {
+    try {
+      const forkedDeck = await axiosPrivate.post("/decks", {
+        authorId: userForkedFrom.id,
+        languageId: selectedLanguage.id,
+        difficultyLevelId: selectedDifficultyLevel.id,
+        nonPublic,
+      });
+      const forkedDeckId = forkedDeck?.data?.id;
+
+      await bulkAddCards(forkedDeckId, deck);
+      incrementCurrentUserXp(deck.length, true);
+    } catch (err) {
+      console.log(err);
+      alert(
+        `Something went wrong when forking this deck. Did you fill in all the fields? ${err.message}`
+      );
+    }
+  };
+
   const addNewDeck = async () => {
     try {
       const newDeck = await axiosPrivate.post("/decks", {
@@ -174,10 +199,10 @@ export default function DeckForm() {
         difficultyLevelId: selectedDifficultyLevel.id,
         nonPublic,
       });
-      const newDeckId = newDeck.data.id;
+      const newDeckId = newDeck?.data?.id;
 
       await bulkAddCards(newDeckId, deck);
-      incrementXp(deck.length);
+      incrementCurrentUserXp(deck.length);
     } catch (err) {
       console.log(err);
       alert(
@@ -186,10 +211,17 @@ export default function DeckForm() {
     }
   };
 
-  const incrementXp = async (numberOfCards) => {
+  const incrementCurrentUserXp = async (numberOfCards, forked) => {
+    let xpPerCard = 10;
+    let xpActivityId = 3;
+    if (forked) {
+      xpPerCard = 5;
+      xpActivityId = 6;
+      incrementDeckLastUserXp();
+    }
     try {
       await axiosPrivate.post("/xp", {
-        xpActivityId: 3,
+        xpActivityId,
         numOfUnits: numberOfCards,
       });
 
@@ -197,12 +229,24 @@ export default function DeckForm() {
 
       alert(
         `Congrats! You just earned ${
-          numberOfCards * 10
-        }xp for adding a new deck.`
+          numberOfCards * xpPerCard
+        }XP for adding a new deck.`
       );
     } catch (err) {
       console.log(err);
       alert(`Oops. We didn't manage to update your XP. ${err.message}`);
+    }
+  };
+
+  const incrementDeckLastUserXp = async () => {
+    // The current user forked the last user's deck. The last user gets a flat 50XP award for this action.
+    try {
+      await axiosPrivate.post("/xp", {
+        userId: userForkedFrom?.id,
+        xpActivityId: 7,
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -283,9 +327,12 @@ export default function DeckForm() {
     <div className="pt-20 pb-10 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
       <form className="my-4 mx-auto w-11/12 max-w-4xl" onSubmit={handleSubmit}>
         <div className="flex flex-col items-center w-full sm:w-96 mx-auto p-4 mb-6 bg-pale-100 dark:bg-pale-800 shadow-lg rounded-md">
-          <h1 className="text-center text-xl font-medium dark:text-white mb-2">
+          <h1 className="text-center text-xl font-medium dark:text-white">
             {deckId ? "Edit Deck" : "New Deck"}
           </h1>
+          <div className="text-xs mb-3">
+            Forked from @{userForkedFrom?.username}
+          </div>
           <div>
             <div className="grid grid-cols-2 gap-2 items-center mb-2">
               <div className="dark:text-white justify-self-end mr-6">
@@ -343,7 +390,11 @@ export default function DeckForm() {
           type="submit"
           color="orange"
         >
-          {deckId ? "Update Deck" : "Add Deck"}
+          {deckId
+            ? location.pathname.includes("edit")
+              ? "Update Deck"
+              : "Fork Deck"
+            : "Add Deck"}
         </Button>
       </form>
     </div>

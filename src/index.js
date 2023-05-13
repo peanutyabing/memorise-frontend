@@ -17,6 +17,7 @@ import PracticeSettings from "./Components/Cards/PracticeSettings.js";
 import PracticeCard from "./Components/Cards/PracticeCard.js";
 import PracticeSummary from "./Components/Cards/PracticeSummary.js";
 import Feed from "./Components/Feed/Feed.js";
+import DeckDetails from "./Components/Feed/DeckDetails.js";
 import Lost from "./Components/Lost.js";
 import "./index.css";
 
@@ -34,12 +35,14 @@ root.render(
                 <Route path="/sign-in" element={<SignInForm />} />
                 <Route path="/sign-up" element={<SignUpForm />} />
                 <Route path="/feed" element={<Feed />} />
+                <Route path="/feed/:deckId" element={<DeckDetails />} />
 
                 <Route element={<RequireAuth />}>
                   {/* Protected routes */}
                   <Route path="/my-decks" element={<MyDecks />} />
                   <Route path="/my-decks/new" element={<DeckForm />} />
                   <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />
+                  <Route path="/my-decks/:deckId/fork" element={<DeckForm />} />
                   <Route
                     path="/my-decks/:deckId/practice"
                     element={<Practice />}

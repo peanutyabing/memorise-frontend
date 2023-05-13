@@ -16,7 +16,7 @@ export default function OneDeck({ deckInfo }) {
     <div className="my-3 mx-3 w-[360px] xs:w-[400px] h-64 min-h-fit p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
       {/* Card header */}
       <div className="flex justify-between items-center mb-2">
-        <div className="font-bold text-lg">{deckInfo?.language?.name}</div>
+        <div className="font-bold">{deckInfo?.language?.name}</div>
         <div className="flex items-center">
           <div className="flex items-center text-sm mr-2 hover:text-sky-500 hover:underline select-none cursor-pointer">
             <LinkIcon className="h-3 w-3 mr-1" />

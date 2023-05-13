@@ -68,7 +68,8 @@ export default function ProfileDropdown() {
                     navigate("/");
                   }}
                 >
-                  Your Profile
+                  {user?.username[0].toUpperCase()}
+                  {user?.username.slice(1)}'s Profile
                 </div>
               )}
             </Menu.Item>

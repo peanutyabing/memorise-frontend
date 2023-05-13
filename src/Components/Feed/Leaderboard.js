@@ -10,6 +10,16 @@ import {
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/outline";
 import { TrophyIcon, SparklesIcon } from "@heroicons/react/24/solid";
 
+const rankColorChart = [
+  "deep-orange-500",
+  "orange-500",
+  "amber-500",
+  "lime-500",
+  "light-green-500",
+];
+
+const trophyColorChart = ["yellow", "blue-gray-500", "brown-500"];
+
 export default function Leaderboard() {
   const [leaderboardData, setLeaderboardData] = useState([
     {
@@ -23,16 +33,6 @@ export default function Leaderboard() {
       content: [],
     },
   ]);
-
-  const colorChart = [
-    "deep-orange-500",
-    "orange-500",
-    "amber-500",
-    "lime-500",
-    "light-green-500",
-  ];
-
-  const trophyChart = ["yellow", "blue-gray-500", "brown-500"];
 
   useEffect(() => {
     getThisWeeksLeaderboard();
@@ -85,7 +85,10 @@ export default function Leaderboard() {
           >
             <div className="">
               {content?.map((row, index) => (
-                <div className="max-w-sm mx-auto grid grid-cols-4 mb-1 text-sm justify-items-center items-center">
+                <div
+                  key={index}
+                  className="max-w-sm mx-auto grid grid-cols-4 mb-1 text-sm justify-items-center items-center"
+                >
                   <img
                     src={row.user?.imageUrl}
                     alt=""
@@ -100,12 +103,12 @@ export default function Leaderboard() {
                     {value === "thisWeek" && (
                       <ChevronDoubleUpIcon
                         strokeWidth={2}
-                        className={`w-4 h-4 ml-3 text-${colorChart[index]}`}
+                        className={`w-4 h-4 ml-3 text-${rankColorChart[index]}`}
                       />
                     )}
                     {value === "allTime" && index < 3 && (
                       <TrophyIcon
-                        className={`w-4 h-4 text-${trophyChart[index]}`}
+                        className={`w-4 h-4 text-${trophyColorChart[index]}`}
                       />
                     )}
                     {value === "allTime" && index >= 3 && (

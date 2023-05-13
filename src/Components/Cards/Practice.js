@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useParams, Outlet } from "react-router-dom";
-import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
+import { axiosDefault } from "../../Utils/axios.js";
 import usePracticeSettings from "../../Hooks/usePracticeSettings";
 import { Chip } from "@material-tailwind/react";
 
 export default function Practice() {
   const { deckId } = useParams();
-  const axiosPrivate = useAxiosPrivate();
   const { practiceSettings, setPracticeSettings } = usePracticeSettings();
 
   const chipColorChart = {
@@ -24,7 +23,7 @@ export default function Practice() {
 
   const pullDeckData = async () => {
     try {
-      const currentDeck = await axiosPrivate.get(`/decks/${deckId}`);
+      const currentDeck = await axiosDefault.get(`/decks/${deckId}`);
       setPracticeSettings((prev) => ({ ...prev, deck: currentDeck?.data }));
     } catch (err) {
       console.log(err);
@@ -34,7 +33,7 @@ export default function Practice() {
 
   const pullCardsData = async () => {
     try {
-      const currentDeckCardsRes = await axiosPrivate.get(`/cards/${deckId}`);
+      const currentDeckCardsRes = await axiosDefault.get(`/cards/${deckId}`);
       const currentDeckCards = currentDeckCardsRes?.data;
       currentDeckCards.forEach((card) => {
         card.nSeenThisRound = 0;
@@ -59,8 +58,6 @@ export default function Practice() {
       alert(`Having troubel finding cards under this deck. ${err.message}`);
     }
   };
-
-  [].sort(() => 0.5 - Math.random());
 
   return (
     <div className="pt-20 pb-10 h-max min-h-screen flex flex-col justify-start items-center bg-white text-black dark:bg-black dark:text-white">
