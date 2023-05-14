@@ -15,6 +15,7 @@ import UsersOwnProfile from "./Components/Profile/UsersOwnProfile.js";
 import OtherUsersProfile from "./Components/Profile/OtherUsersProfile.js";
 import MyDecks from "./Components/Decks/MyDecks.js";
 import DeckForm from "./Components/Decks/DeckForm.js";
+import AiInstructionsForm from "./Components/Decks/AiInstructionsForm.js";
 import Practice from "./Components/Cards/Practice.js";
 import PracticeSettings from "./Components/Cards/PracticeSettings.js";
 import PracticeCard from "./Components/Cards/PracticeCard.js";
@@ -56,6 +57,10 @@ root.render(
                   <Route path="/my-decks/new" element={<DeckForm />} />
                   <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />
                   <Route path="/my-decks/:deckId/fork" element={<DeckForm />} />
+                  <Route
+                    path="/my-decks/ai-assistant"
+                    element={<AiInstructionsForm />}
+                  />
                   <Route
                     path="/my-decks/:deckId/practice"
                     element={<Practice />}

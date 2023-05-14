@@ -85,6 +85,9 @@ export default function MyDecks() {
               <Button
                 color="orange"
                 className="h-11 w-56 mt-4 flex items-center justify-center gap-2"
+                onClick={() => {
+                  navigate("./ai-assistant");
+                }}
               >
                 <OpenAILogo className="w-6 h-6" /> Generate with OpenAI
               </Button>
