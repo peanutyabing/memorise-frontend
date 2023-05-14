@@ -23,7 +23,7 @@ export default function Feed() {
     } else {
       getAllDecks();
     }
-  }, []);
+  }, [auth]);
 
   const getDecksOfInterest = async () => {
     const decksRes = await axiosPrivate.get("/feed/of-interest");

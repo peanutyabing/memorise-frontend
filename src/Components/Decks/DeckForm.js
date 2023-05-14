@@ -20,7 +20,8 @@ export default function DeckForm() {
   const [selectedLanguage, setSelectedLanguage] = useState({});
   const [selectedDifficultyLevel, setSelectedDifficultyLevel] = useState({});
   const [nonPublic, setNonPulic] = useState(false);
-  const [userForkedFrom, setUserForkedFrom] = useState({});
+  const [forkedFromUser, setForkedFromUser] = useState({});
+  const [forkedFromDeckId, setForkedFromDeckId] = useState({});
   const [deck, setDeck] = useState([]);
   const [rows, setRows] = useState(5);
   const [cardsToDelete, setCardsToDelete] = useState([]);
@@ -38,7 +39,8 @@ export default function DeckForm() {
       setSelectedLanguage(currentDeck?.data?.language);
       setSelectedDifficultyLevel(currentDeck?.data?.difficultyLevel);
       setNonPulic(currentDeck?.data?.nonPublic);
-      setUserForkedFrom(currentDeck?.data?.user);
+      setForkedFromUser(currentDeck?.data?.user);
+      setForkedFromDeckId(currentDeck?.data?.id);
     } catch (err) {
       console.log(err);
       alert(`Having troubel finding this deck. ${err.message}`);
@@ -110,7 +112,7 @@ export default function DeckForm() {
     if (deckId && location.pathname.includes("edit")) {
       await updateDeck();
     } else if (deckId && location.pathname.includes("fork")) {
-      await forkDeck();
+      await createForkedDeck();
     } else {
       await addNewDeck();
     }
@@ -171,23 +173,45 @@ export default function DeckForm() {
     }
   };
 
-  const forkDeck = async () => {
+  const createForkedDeck = async () => {
     try {
       const forkedDeck = await axiosPrivate.post("/decks", {
-        authorId: userForkedFrom.id,
+        authorId: forkedFromUser.id,
         languageId: selectedLanguage.id,
         difficultyLevelId: selectedDifficultyLevel.id,
         nonPublic,
       });
-      const forkedDeckId = forkedDeck?.data?.id;
+      const forkedToDeckId = forkedDeck?.data?.id;
 
-      await bulkAddCards(forkedDeckId, deck);
+      await addFork(forkedToDeckId);
+      updateNForks();
+      bulkAddCards(forkedToDeckId, deck);
       incrementCurrentUserXp(deck.length, true);
     } catch (err) {
       console.log(err);
       alert(
         `Something went wrong when forking this deck. Did you fill in all the fields? ${err.message}`
       );
+    }
+  };
+
+  const addFork = async (forkedToDeckId) => {
+    try {
+      await axiosPrivate.post("/forks", {
+        forkedFromUserId: forkedFromUser.id,
+        forkedFromDeckId,
+        forkedToDeckId,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateNForks = async () => {
+    try {
+      await axiosDefault.put(`/forks/${forkedFromDeckId}`);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -242,7 +266,7 @@ export default function DeckForm() {
     // The current user forked the last user's deck. The last user gets a flat 50XP award for this action.
     try {
       await axiosPrivate.post("/xp", {
-        userId: userForkedFrom?.id,
+        userId: forkedFromUser?.id,
         xpActivityId: 7,
       });
     } catch (err) {
@@ -331,7 +355,7 @@ export default function DeckForm() {
             {deckId ? "Edit Deck" : "New Deck"}
           </h1>
           <div className="text-xs mb-3">
-            Forked from @{userForkedFrom?.username}
+            Forked from @{forkedFromUser?.username}
           </div>
           <div>
             <div className="grid grid-cols-2 gap-2 items-center mb-2">

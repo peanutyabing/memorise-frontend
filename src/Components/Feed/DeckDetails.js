@@ -4,7 +4,11 @@ import { axiosDefault } from "../../Utils/axios";
 import moment from "moment";
 import DifficultyRating from "../Decks/DifficultyRating.js";
 import { LinkIcon } from "@heroicons/react/24/outline";
-import { HeartIcon, ArrowDownOnSquareIcon } from "@heroicons/react/24/solid";
+import {
+  HeartIcon,
+  ArrowDownOnSquareIcon,
+  ArrowsRightLeftIcon,
+} from "@heroicons/react/24/solid";
 import { Button, ButtonGroup, Tooltip } from "@material-tailwind/react";
 
 export default function DeckDetails() {
@@ -64,15 +68,11 @@ export default function DeckDetails() {
       </div>
 
       {/* Cards */}
-      <div className="grid gap-2">
-        <div className="grid grid-cols-2 gap-3 mx-auto max-w-md text-xs font-semibold">
-          <div className="flex justify-center w-36 mt-4">Front</div>
-          <div className="flex justify-center w-36 mt-4">Back</div>
-        </div>
+      <div className="grid md:grid-cols-2 max-w-3xl gap-2 mx-auto my-4">
         {cardsInfo.map((card) => (
           <div
             key={card.id}
-            className="grid grid-cols-2 gap-3 mx-auto max-w-md text-sm text-center"
+            className="flex items-center gap-1 mx-auto max-w-md text-sm text-center"
           >
             <div
               key={`${card.id}-front`}
@@ -80,6 +80,7 @@ export default function DeckDetails() {
             >
               {card.front}
             </div>
+            <ArrowsRightLeftIcon className="w-4 h-4 text-pale-800 dark:text-pale-50" />
             <div
               key={`${card.id}-back`}
               className="w-40 h-24 flex items-center justify-center p-2 bg-pale-200 dark:bg-pale-600 border-r border-b border-pale-800 dark:border-pale-100"
