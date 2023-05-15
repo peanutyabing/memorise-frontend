@@ -64,6 +64,11 @@ module.exports = withMT({
             transform: "translateY(0)",
           },
         },
+        flipHorizontal: {
+          "0%": { transform: "rotateY(90deg)" },
+          "50%": { transform: "rotateY(45deg)" },
+          "75%": { transform: "rotateY(0deg)" },
+        },
         heartbeat: {
           "0%": {
             transform: "scale(1)",
@@ -84,7 +89,8 @@ module.exports = withMT({
       },
       animation: {
         "fade-in-up": "fade-in-up 4s ease-out",
-        heartbeat: "heartbeat 1s 1s 5",
+        flipX: "flipHorizontal 0.5s 1 ease-in",
+        heartbeat: "heartbeat 1s 1s 1",
       },
     },
   },

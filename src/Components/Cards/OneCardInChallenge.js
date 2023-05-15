@@ -20,45 +20,61 @@ export default function OneCardInChallenge() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [input, setInput] = useState("");
 
-  const currentCard = roundSettings?.cards[cardIndex - 1];
+  const currentCard =
+    roundSettings?.cards && roundSettings?.cards[cardIndex - 1];
 
-  const displayCardSide = () => {
+  const displayCard = () => {
     if (!showAnswer) {
       return (
-        <div className="h-4/6 flex flex-col justify-evenly">
-          <div>
-            {roundSettings?.seeBackFirst
-              ? currentCard?.back
-              : currentCard?.front}
+        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl">
+          <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
+          <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-50 dark:bg-blue-gray-900">
+            <div className="h-4/6 flex flex-col justify-evenly">
+              <div>
+                {roundSettings?.seeBackFirst
+                  ? currentCard?.back
+                  : currentCard?.front}
+              </div>
+              <Input
+                variant="static"
+                color="orange"
+                placeholder="Answer"
+                autoFocus
+                className="dark:text-white text-center"
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    setShowAnswer(true);
+                  }
+                }}
+              />
+            </div>
           </div>
-          <Input
-            variant="static"
-            color="orange"
-            placeholder="Answer"
-            className="dark:text-white text-center"
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-            }}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                setShowAnswer(true);
-              }
-            }}
-          />
         </div>
       );
     } else {
-      const answer = roundSettings?.seeBackFirst
-        ? currentCard?.front
-        : currentCard?.back;
       return (
-        <div className="h-4/6 flex flex-col justify-evenly">
-          <div>{checkAnswer(input, answer)}</div>
-          <div className="font-light text-sm text-blue-gray-800 dark:text-blue-gray-200">
-            {roundSettings?.seeBackFirst
-              ? currentCard?.back
-              : currentCard?.front}
+        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl animate-flipX">
+          <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
+          <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-50 dark:bg-blue-gray-900">
+            <div className="h-4/6 flex flex-col justify-evenly">
+              <div>
+                {checkAnswer(
+                  input,
+                  roundSettings?.seeBackFirst
+                    ? currentCard?.front
+                    : currentCard?.back
+                )}
+              </div>
+              <div className="font-light text-sm text-blue-gray-800 dark:text-blue-gray-200">
+                {roundSettings?.seeBackFirst
+                  ? currentCard?.back
+                  : currentCard?.front}
+              </div>
+            </div>
           </div>
         </div>
       );
@@ -214,12 +230,7 @@ export default function OneCardInChallenge() {
 
   return (
     <div>
-      <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl">
-        <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
-        <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-50 dark:bg-blue-gray-900">
-          {displayCardSide()}
-        </div>
-      </div>
+      {displayCard()}
       {displayButtons()}
     </div>
   );
