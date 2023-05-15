@@ -13,6 +13,7 @@ import SignUpForm from "./Components/Profile/SignUpForm.js";
 import UserInterestsForm from "./Components/Profile/UserInterestsForm.js";
 import UsersOwnProfile from "./Components/Profile/UsersOwnProfile.js";
 import ProfileForm from "./Components/Profile/ProfileForm.js";
+import XpHistory from "./Components/Profile/XpHistory.js";
 import OtherUsersProfile from "./Components/Profile/OtherUsersProfile.js";
 import MyDecks from "./Components/Decks/MyDecks.js";
 import DeckForm from "./Components/Decks/DeckForm.js";
@@ -58,6 +59,7 @@ root.render(
                   />
                   <Route path="/my-profile" element={<UsersOwnProfile />} />
                   <Route path="/edit-profile" element={<ProfileForm />} />
+                  <Route path="/my-xp" element={<XpHistory />} />
                   <Route path="/my-decks" element={<MyDecks />} />
                   <Route path="/my-decks/new" element={<DeckForm />} />
                   <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />

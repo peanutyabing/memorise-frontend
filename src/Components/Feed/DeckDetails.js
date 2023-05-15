@@ -55,10 +55,7 @@ export default function DeckDetails() {
             }}
           >
             <LinkIcon className="h-3 w-3 mr-1" />
-            <span className="font-semibold">
-              {deckInfo?.user?.username}
-              {/* //// Implement navigate to user profile */}
-            </span>
+            <span className="font-semibold">{deckInfo?.user?.username}</span>
           </div>
         </div>
         <div className="flex items-center gap-3 mb-1">

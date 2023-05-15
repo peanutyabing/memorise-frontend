@@ -46,8 +46,8 @@ export default function UsersOwnProfile() {
             color="amber"
             icon={<RocketLaunchIcon />}
             onClick={() => {
-              navigate("/");
-            }} //// placeholder for xp history
+              navigate("/my-xp");
+            }}
           />
         </div>
         <div className="mt-2">

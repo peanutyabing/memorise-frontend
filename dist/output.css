@@ -1105,6 +1105,10 @@ html {
   display: inline-flex;
 }
 
+.table {
+  display: table;
+}
+
 .grid {
   display: grid;
 }
@@ -1521,6 +1525,11 @@ html {
   min-width: 75%;
 }
 
+.min-w-max {
+  min-width: -webkit-max-content;
+  min-width: max-content;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -1601,6 +1610,10 @@ html {
   max-width: 20rem;
 }
 
+.max-w-lg {
+  max-width: 32rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1627,6 +1640,10 @@ html {
 
 .basis-full {
   flex-basis: 100%;
+}
+
+.table-auto {
+  table-layout: auto;
 }
 
 .origin-top-right {
@@ -2112,6 +2129,10 @@ html {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-scroll {
+  overflow: scroll;
 }
 
 .overflow-x-hidden {
@@ -3793,6 +3814,10 @@ html {
 
 .opacity-80 {
   opacity: 0.8;
+}
+
+.opacity-70 {
+  opacity: 0.7;
 }
 
 .shadow {
@@ -6869,6 +6894,11 @@ html {
 
 :is(.dark .dark\:bg-pale-800) {
   background-color: #37474f70;
+}
+
+:is(.dark .dark\:bg-blue-gray-800) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 71 79 / var(--tw-bg-opacity));
 }
 
 :is(.dark .dark\:text-black) {

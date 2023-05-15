@@ -53,8 +53,8 @@ export default function ProfileDropdown() {
                 color="amber"
                 icon={<RocketLaunchIcon />}
                 onClick={() => {
-                  navigate("/");
-                }} //// placeholder for xp history
+                  navigate("/my-xp");
+                }}
               />
             </Menu.Item>
             <Menu.Item>
