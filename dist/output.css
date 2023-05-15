@@ -1896,6 +1896,22 @@ html {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.grid-cols-\[40px_1fr\] {
+  grid-template-columns: 40px 1fr;
+}
+
+.grid-cols-\[60px_1fr\] {
+  grid-template-columns: 60px 1fr;
+}
+
+.grid-cols-\[1fr_2fr\] {
+  grid-template-columns: 1fr 2fr;
+}
+
+.grid-cols-\[2fr_5fr\] {
+  grid-template-columns: 2fr 5fr;
+}
+
 .flex-row {
   flex-direction: row;
 }
