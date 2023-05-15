@@ -7,17 +7,19 @@ import { Button, Spinner } from "@material-tailwind/react";
 function App() {
   const { auth } = useAuth();
   const navigate = useNavigate();
+  let redirect;
 
   useEffect(() => {
     if (auth?.token) {
-      setTimeout(() => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      redirect = setTimeout(() => {
         navigate("/my-decks");
-      }, 5000);
+      }, 7000);
     }
   }, []);
 
   return (
-    <div className="pt-20 pb-10 h-max min-h-screen bg-white text-black dark:bg-black dark:text-white flex flex-col justify-center">
+    <div className="py-10 h-max min-h-screen bg-white text-black dark:bg-black dark:text-white flex flex-col justify-center">
       <header></header>
       <main className="flex flex-col justify-center items-center justify-center">
         <img
@@ -32,7 +34,8 @@ function App() {
           color="orange"
           className="mt-6"
           onClick={() => {
-            navigate("/tutorial");
+            navigate("/tour");
+            clearTimeout(redirect);
           }}
         >
           Show me around
@@ -43,6 +46,7 @@ function App() {
           className="mt-6"
           onClick={() => {
             navigate("/my-decks");
+            clearTimeout(redirect);
           }}
         >
           Start practicing

@@ -417,7 +417,7 @@ export default function DeckForm() {
           >
             {deckId
               ? location.pathname.includes("edit")
-                ? "Update Deck"
+                ? "Confirm"
                 : "Fork Deck"
               : "Add Deck"}
           </Button>
