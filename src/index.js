@@ -43,10 +43,6 @@ root.render(
                 <Route path="/tour" element={<Tour />} />
                 <Route path="/sign-in" element={<SignInForm />} />
                 <Route path="/sign-up" element={<SignUpForm />} />
-                <Route
-                  path="/profile/:userId"
-                  element={<OtherUsersProfile />}
-                />
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/feed/:deckId" element={<DeckDetails />} />
 
@@ -58,6 +54,10 @@ root.render(
                     element={<UserInterestsForm />}
                   />
                   <Route path="/my-profile" element={<UsersOwnProfile />} />
+                  <Route
+                    path="/profile/:userId"
+                    element={<OtherUsersProfile />}
+                  />
                   <Route path="/edit-profile" element={<ProfileForm />} />
                   <Route path="/my-xp" element={<XpHistory />} />
                   <Route path="/my-decks" element={<MyDecks />} />
