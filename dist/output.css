@@ -3740,6 +3740,16 @@ html {
   color: rgb(248 181 0 / var(--tw-text-opacity));
 }
 
+.text-gray-800 {
+  --tw-text-opacity: 1;
+  color: rgb(66 66 66 / var(--tw-text-opacity));
+}
+
+.text-blue-gray-800 {
+  --tw-text-opacity: 1;
+  color: rgb(55 71 79 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -6880,6 +6890,30 @@ html {
 :is(.dark .dark\:text-white) {
   --tw-text-opacity: 1;
   color: rgb(248 247 243 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:text-gray-200) {
+  --tw-text-opacity: 1;
+  color: rgb(238 238 238 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:text-gray-300) {
+  --tw-text-opacity: 1;
+  color: rgb(224 224 224 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:text-pale-100) {
+  color: #cfd8dc70;
+}
+
+:is(.dark .dark\:text-blue-gray-100) {
+  --tw-text-opacity: 1;
+  color: rgb(207 216 220 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:text-blue-gray-200) {
+  --tw-text-opacity: 1;
+  color: rgb(176 190 197 / var(--tw-text-opacity));
 }
 
 :is(.dark .dark\:outline-black) {

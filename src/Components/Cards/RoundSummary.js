@@ -102,11 +102,11 @@ export default function RoundSummary() {
         <div className="grid grid-cols-2 gap-4 justify-items-center my-4">
           <div className="flex items-center">
             <div className="w-10 h-4 bg-red-400 mr-2"></div>
-            <div className="text-xs">Wrong answer</div>
+            <div className="text-xs">Wrong</div>
           </div>
           <div className="flex items-center">
             <div className="w-10 h-4 bg-green-500 mr-2"></div>
-            <div className="text-xs">Correct answer</div>
+            <div className="text-xs">Correct</div>
           </div>
           <div className="text-xs text-center">
             {roundSettings?.cards

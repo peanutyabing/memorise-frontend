@@ -47,7 +47,16 @@ export default function OneCardInChallenge() {
       const answer = roundSettings?.seeBackFirst
         ? currentCard?.front
         : currentCard?.back;
-      return checkAnswer(input, answer);
+      return (
+        <div className="h-4/6 flex flex-col justify-evenly">
+          <div>{checkAnswer(input, answer)}</div>
+          <div className="font-light text-sm text-blue-gray-800 dark:text-blue-gray-200">
+            {roundSettings?.seeBackFirst
+              ? currentCard?.back
+              : currentCard?.front}
+          </div>
+        </div>
+      );
     }
   };
 

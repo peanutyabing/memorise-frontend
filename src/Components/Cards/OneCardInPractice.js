@@ -22,16 +22,25 @@ export default function OneCardInPractice() {
   const currentCard = roundSettings?.cardsQueue[cardIndex - 1];
 
   const displayCardSide = () => {
-    if (
-      (roundSettings?.seeBackFirst && showOtherSide) ||
-      (!roundSettings?.seeBackFirst && !showOtherSide)
-    ) {
-      return currentCard?.front;
-    } else if (
-      (roundSettings?.seeBackFirst && !showOtherSide) ||
-      (!roundSettings?.seeBackFirst && showOtherSide)
-    ) {
-      return currentCard?.back;
+    if (!showOtherSide) {
+      return roundSettings?.seeBackFirst
+        ? currentCard?.back
+        : currentCard?.front;
+    } else {
+      return (
+        <div className="h-4/6 flex flex-col justify-evenly">
+          <div>
+            {roundSettings?.seeBackFirst
+              ? currentCard?.front
+              : currentCard?.back}
+          </div>
+          <div className="font-light text-sm text-blue-gray-800 dark:text-blue-gray-200">
+            {roundSettings?.seeBackFirst
+              ? currentCard?.back
+              : currentCard?.front}
+          </div>
+        </div>
+      );
     }
   };
 
