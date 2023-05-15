@@ -14,7 +14,7 @@ function App() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       redirect = setTimeout(() => {
         navigate("/my-decks");
-      }, 7000);
+      }, 6000);
     }
   }, []);
 

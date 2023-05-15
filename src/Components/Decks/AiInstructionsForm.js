@@ -89,6 +89,9 @@ export default function AiInstructionsForm() {
           <div className="flex items-center justify-center gap-2 mb-3">
             <OpenAILogo className="h-6 w-6 bg-black p-1 rounded-full" />
             <h1 className="text-center text-xl font-medium">AI Assistant</h1>
+            <div className="mt-1 text-xs">
+              Powered by <span className="font-arial">OpenAI</span>
+            </div>
           </div>
           <div className="w-full rounded-md bg-pale-100 dark:bg-pale-800 flex items-center justify-center gap-2 mb-6 p-2">
             <ExclamationTriangleIcon className="w-6 h-6" strokeWidth={2} />

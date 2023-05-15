@@ -4,6 +4,7 @@ import { Button, Tooltip } from "@material-tailwind/react";
 import { HeartIcon, ArrowDownOnSquareIcon } from "@heroicons/react/24/outline";
 import DifficultyRating from "./DifficultyRating.js";
 import CardsPreview from "./CardsPreview.js";
+import OpenAiLogo from "../../Images/openai-white-logomark.svg";
 
 export default function OneDeck({ deckInfo }) {
   const navigate = useNavigate();
@@ -11,21 +12,17 @@ export default function OneDeck({ deckInfo }) {
   return (
     <div className="my-3 mx-3 w-[360px] xs:w-[400px] h-64 min-h-fit p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
       {/* Card header */}
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-1">
         <div className="font-bold">{deckInfo?.language?.name}</div>
-        <div className="flex items-center">
-          <div className="flex items-center text-sm mr-2">
-            By
-            <span
-              className="ml-1 font-semibold hover:text-sky-500 hover:underline select-none cursor-pointer"
-              onClick={() => {
-                navigate(`/profile/${deckInfo?.authorId}`);
-              }}
-            >
-              @{deckInfo?.author?.username}
-            </span>
-          </div>
-          <div className="text-xs font-light">
+        <div className="flex items-center gap-3 text-xs ">
+          {deckInfo?.aiGenerated && (
+            <img
+              src={OpenAiLogo}
+              alt="AI assisted"
+              className="h-5 w-5 p-1 rounded-full bg-blue-gray-800 dark:bg-transparent"
+            />
+          )}
+          <div className="font-light">
             {moment(new Date(deckInfo?.createdAt)).fromNow()}
           </div>
         </div>
@@ -103,7 +100,7 @@ export default function OneDeck({ deckInfo }) {
       </div>
 
       {/* Card Footer */}
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center mt-2">
         <div className="flex select-none">
           <div className="flex items-center mr-2 text-sm">
             <HeartIcon className="w-4 h-4 mr-1" />
@@ -114,17 +111,28 @@ export default function OneDeck({ deckInfo }) {
             {deckInfo?.nForks}
           </div>
         </div>
-        <div className="flex mb-1">
+        <div className="flex items-center text-xs">
+          By
+          <span
+            className="ml-1 font-semibold hover:text-sky-500 hover:underline select-none cursor-pointer"
+            onClick={() => {
+              navigate(`/profile/${deckInfo?.authorId}`);
+            }}
+          >
+            @{deckInfo?.author?.username}
+          </span>
+        </div>
+        {/*<div className="flex mb-1">
           {deckInfo?.subcategories.map((subcat) => (
             <div
               key={subcat?.id}
               className="flex items-center rounded-sm font-light text-sm hover:underline hover:text-sky-500 mr-2 select-none cursor-pointer"
             >
               #{subcat?.name}
-              {/* //// Implement click on subcat to search feed for other decks of the same subcat */}
+              <p>Implement click on subcat to search feed for other decks of the same subcat</p>
             </div>
           ))}
-        </div>
+        </div>*/}
       </div>
     </div>
   );

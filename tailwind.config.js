@@ -47,6 +47,7 @@ module.exports = withMT({
         "source-sans-3": ['"Source Sans 3"', "sans-serif"],
         quicksand: ['"Quicksand"', "sans-serif"],
         "dancing-script": ['"Dancing Script"', "cursive"],
+        arial: ['"Arial"', "sans-serif"],
       },
       keyframes: {
         "fade-in-up": {

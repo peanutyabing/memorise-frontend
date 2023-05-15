@@ -40,6 +40,11 @@ export default function OneCardInChallenge() {
             onChange={(e) => {
               setInput(e.target.value);
             }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                setShowAnswer(true);
+              }
+            }}
           />
         </div>
       );

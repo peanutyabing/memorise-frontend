@@ -62,7 +62,7 @@ export default function MyDecks() {
                   navigate("./new");
                 }}
               >
-                <PencilSquareIcon className="w-5 h-5" /> Make your own
+                <PencilSquareIcon className="w-6 h-6" /> Make your own
               </Button>
             </Tooltip>
             <Tooltip
