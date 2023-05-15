@@ -50,7 +50,7 @@ export default function OneDeck({ deckInfo }) {
           content={
             <div className="w-64">
               <div color="white" className="font-medium">
-                Practice makes perfect!
+                Practice makes perfect
               </div>
               <div
                 variant="small"
@@ -73,9 +73,33 @@ export default function OneDeck({ deckInfo }) {
             Practice
           </Button>
         </Tooltip>
-        <Button color="orange" className="w-[48%]" disabled>
-          Challenge
-        </Button>
+        <Tooltip
+          content={
+            <div className="w-64">
+              <div color="white" className="font-medium">
+                Take the leap
+              </div>
+              <div
+                variant="small"
+                color="white"
+                className="font-normal opacity-80"
+              >
+                Quiz yourself and earn 10 XP for each correct answer.
+              </div>
+            </div>
+          }
+          placement="bottom"
+        >
+          <Button
+            color="orange"
+            className="w-[48%]"
+            onClick={() => {
+              navigate(`./${deckInfo?.id}/challenge/settings`);
+            }}
+          >
+            Challenge
+          </Button>
+        </Tooltip>
       </div>
 
       {/* Card Footer */}

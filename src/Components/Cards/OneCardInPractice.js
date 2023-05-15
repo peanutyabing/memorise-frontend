@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
+import useRoundSettings from "../../Hooks/useRoundSettings.js";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import useUser from "../../Hooks/useUser.js";
 import { Button } from "@material-tailwind/react";
@@ -10,26 +10,26 @@ import {
   ForwardIcon,
 } from "@heroicons/react/24/outline";
 
-export default function PracticeCard() {
+export default function OneCardInPractice() {
   let { cardIndex } = useParams();
   const navigate = useNavigate();
-  const { practiceSettings, setPracticeSettings } = usePracticeSettings();
+  const { roundSettings, setRoundSettings } = useRoundSettings();
   const axiosPrivate = useAxiosPrivate();
   const { setUser } = useUser();
 
   const [showOtherSide, setShowOtherSide] = useState(false);
 
-  const currentCard = practiceSettings?.cardsQueue[cardIndex - 1];
+  const currentCard = roundSettings?.cardsQueue[cardIndex - 1];
 
   const displayCardSide = () => {
     if (
-      (practiceSettings?.seeBackFirst && showOtherSide) ||
-      (!practiceSettings?.seeBackFirst && !showOtherSide)
+      (roundSettings?.seeBackFirst && showOtherSide) ||
+      (!roundSettings?.seeBackFirst && !showOtherSide)
     ) {
       return currentCard?.front;
     } else if (
-      (practiceSettings?.seeBackFirst && !showOtherSide) ||
-      (!practiceSettings?.seeBackFirst && showOtherSide)
+      (roundSettings?.seeBackFirst && !showOtherSide) ||
+      (!roundSettings?.seeBackFirst && showOtherSide)
     ) {
       return currentCard?.back;
     }
@@ -79,10 +79,10 @@ export default function PracticeCard() {
   };
 
   const flipCard = (known) => {
-    const cardsQueueToUpdate = [...practiceSettings?.cardsQueue];
+    const cardsQueueToUpdate = [...roundSettings?.cardsQueue];
     if (!known) {
       cardsQueueToUpdate.push(currentCard);
-      setPracticeSettings((prev) => ({
+      setRoundSettings((prev) => ({
         ...prev,
         cardsQueue: cardsQueueToUpdate,
       }));
@@ -93,7 +93,7 @@ export default function PracticeCard() {
   };
 
   const updateRoundStats = (known) => {
-    const statsToUpdate = [...practiceSettings.cards];
+    const statsToUpdate = [...roundSettings?.cards];
     for (const card of statsToUpdate) {
       if (card.id === currentCard.id) {
         card.nSeenThisRound += 1;
@@ -102,7 +102,7 @@ export default function PracticeCard() {
         }
       }
     }
-    setPracticeSettings((prev) => ({ ...prev, cards: statsToUpdate }));
+    setRoundSettings((prev) => ({ ...prev, cards: statsToUpdate }));
   };
 
   const updateBackendCardData = async (known) => {
@@ -110,7 +110,7 @@ export default function PracticeCard() {
     // Get the latest card data from database
     try {
       const currentCardRes = await axiosPrivate.get(
-        `/cards/${practiceSettings?.deck?.id}/${currentCard?.id}`
+        `/cards/${roundSettings?.deck?.id}/${currentCard?.id}`
       );
       reqBody.numberOfTimesSeen = currentCardRes?.data?.numberOfTimesSeen + 1;
       reqBody.lastSeen = new Date();
@@ -121,6 +121,7 @@ export default function PracticeCard() {
     } catch (err) {
       console.log("While requesting for latest data of the current card", err);
     }
+
     // Send updated data back to database
     try {
       await axiosPrivate.put(`/cards/${currentCard?.id}`, reqBody);
@@ -135,10 +136,10 @@ export default function PracticeCard() {
   const goToNextCard = () => {
     setShowOtherSide(false);
     cardIndex++;
-    if (cardIndex <= practiceSettings?.cardsQueue?.length) {
-      navigate(`../${cardIndex}`);
+    if (cardIndex <= roundSettings?.cardsQueue?.length) {
+      navigate(`../${cardIndex}/p`);
     } else {
-      incrementXp(practiceSettings?.nCards);
+      incrementXp(roundSettings?.nCards);
       navigate("../summary");
     }
   };

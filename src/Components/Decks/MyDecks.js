@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
-import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
+import useRoundSettings from "../../Hooks/useRoundSettings.js";
 import OneDeck from "./OneDeck.js";
 import { Button, Tooltip } from "@material-tailwind/react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -11,7 +11,7 @@ export default function MyDecks() {
   const [userDecks, setUserDecks] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const { setPracticeSettings } = usePracticeSettings();
+  const { setRoundSettings } = useRoundSettings();
 
   useEffect(() => {
     getUserDecks();
@@ -19,7 +19,7 @@ export default function MyDecks() {
 
   useEffect(() => {
     // Clear the practice round data in Context
-    setPracticeSettings({});
+    setRoundSettings({});
   }, []);
 
   const getUserDecks = async () => {

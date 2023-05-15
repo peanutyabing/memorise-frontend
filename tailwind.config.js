@@ -63,9 +63,27 @@ module.exports = withMT({
             transform: "translateY(0)",
           },
         },
+        heartbeat: {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "14%": {
+            transform: "scale(1.1)",
+          },
+          "28%": {
+            transform: "scale(1)",
+          },
+          "42%": {
+            transform: "scale(1.1)",
+          },
+          "70%": {
+            transform: "scale(1)",
+          },
+        },
       },
       animation: {
         "fade-in-up": "fade-in-up 4s ease-out",
+        heartbeat: "heartbeat 1s 1s 5",
       },
     },
   },

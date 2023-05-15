@@ -3,9 +3,7 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
@@ -14,16 +12,14 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
-  Legend,
   ChartDataLabels
 );
 
 ChartJS.defaults.font.size = 13;
 ChartJS.defaults.font.family = "Quicksand";
 
-export function SummaryChart({ roundStats, maxY }) {
+export default function SummaryBarChart({ roundStats, maxY }) {
   const labels = roundStats?.map((card) => card.front);
   const nSeen = roundStats?.map((card) => card.nSeenThisRound);
   const nCorrect = roundStats?.map((card) => card.nCorrectThisRound);

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Context/AuthProvider.js";
 import { UserProvider } from "./Context/UserProvider.js";
-import { PracticeSettingsProvider } from "./Context/PracticeSettingsProvider.js";
+import { RoundSettingsProvider } from "./Context/RoundSettingsProvider.js";
 import RequireAuth from "./Components/RequireAuth.js";
 import PersistLogin from "./Components/PersistLogin.js";
 import Navbar from "./Components/Nav/Navbar.js";
@@ -16,10 +16,11 @@ import OtherUsersProfile from "./Components/Profile/OtherUsersProfile.js";
 import MyDecks from "./Components/Decks/MyDecks.js";
 import DeckForm from "./Components/Decks/DeckForm.js";
 import AiInstructionsForm from "./Components/Decks/AiInstructionsForm.js";
-import Practice from "./Components/Cards/Practice.js";
-import PracticeSettings from "./Components/Cards/PracticeSettings.js";
-import PracticeCard from "./Components/Cards/PracticeCard.js";
-import PracticeSummary from "./Components/Cards/PracticeSummary.js";
+import RoundHeader from "./Components/Cards/RoundHeader.js";
+import RoundSettings from "./Components/Cards/RoundSettings.js";
+import OneCardInPractice from "./Components/Cards/OneCardInPractice.js";
+import OneCardInChallenge from "./Components/Cards/OneCardInChallenge.js";
+import RoundSummary from "./Components/Cards/RoundSummary.js";
 import Feed from "./Components/Feed/Feed.js";
 import DeckDetails from "./Components/Feed/DeckDetails.js";
 import Tour from "./Components/Tour.js";
@@ -31,7 +32,7 @@ root.render(
   <BrowserRouter>
     <AuthProvider>
       <UserProvider>
-        <PracticeSettingsProvider>
+        <RoundSettingsProvider>
           <Routes>
             <Route element={<PersistLogin />}>
               <Route element={<Navbar />}>
@@ -64,20 +65,24 @@ root.render(
                     element={<AiInstructionsForm />}
                   />
                   <Route
-                    path="/my-decks/:deckId/practice"
-                    element={<Practice />}
+                    path="/my-decks/:deckId/:mode"
+                    element={<RoundHeader />}
                   >
                     <Route
-                      path="/my-decks/:deckId/practice/settings"
-                      element={<PracticeSettings />}
+                      path="/my-decks/:deckId/:mode/settings"
+                      element={<RoundSettings />}
                     />
                     <Route
-                      path="/my-decks/:deckId/practice/:cardIndex"
-                      element={<PracticeCard />}
+                      path="/my-decks/:deckId/:mode/:cardIndex/p"
+                      element={<OneCardInPractice />}
                     />
                     <Route
-                      path="/my-decks/:deckId/practice/summary"
-                      element={<PracticeSummary />}
+                      path="/my-decks/:deckId/:mode/:cardIndex/c"
+                      element={<OneCardInChallenge />}
+                    />
+                    <Route
+                      path="/my-decks/:deckId/:mode/summary"
+                      element={<RoundSummary />}
                     />
                   </Route>
                 </Route>
@@ -87,7 +92,7 @@ root.render(
               </Route>
             </Route>
           </Routes>
-        </PracticeSettingsProvider>
+        </RoundSettingsProvider>
       </UserProvider>
     </AuthProvider>
   </BrowserRouter>
