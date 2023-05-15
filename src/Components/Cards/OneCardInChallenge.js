@@ -26,7 +26,7 @@ export default function OneCardInChallenge() {
   const displayCard = () => {
     if (!showAnswer) {
       return (
-        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl">
+        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl animate-enter-r">
           <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
           <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-50 dark:bg-blue-gray-900">
             <div className="h-4/6 flex flex-col justify-evenly">
@@ -57,7 +57,7 @@ export default function OneCardInChallenge() {
       );
     } else {
       return (
-        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl animate-flipX">
+        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl animate-flip-x">
           <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
           <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-50 dark:bg-blue-gray-900">
             <div className="h-4/6 flex flex-col justify-evenly">
