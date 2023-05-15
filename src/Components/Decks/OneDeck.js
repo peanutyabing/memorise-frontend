@@ -1,11 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { Button, Tooltip } from "@material-tailwind/react";
-import {
-  LinkIcon,
-  HeartIcon,
-  ArrowDownOnSquareIcon,
-} from "@heroicons/react/24/outline";
+import { HeartIcon, ArrowDownOnSquareIcon } from "@heroicons/react/24/outline";
 import DifficultyRating from "./DifficultyRating.js";
 import CardsPreview from "./CardsPreview.js";
 
@@ -18,11 +14,15 @@ export default function OneDeck({ deckInfo }) {
       <div className="flex justify-between items-center mb-2">
         <div className="font-bold">{deckInfo?.language?.name}</div>
         <div className="flex items-center">
-          <div className="flex items-center text-sm mr-2 hover:text-sky-500 hover:underline select-none cursor-pointer">
-            <LinkIcon className="h-3 w-3 mr-1" />
-            <span className="font-semibold">
-              {deckInfo?.author?.username}
-              {/* //// Implement navigate to user profile */}
+          <div className="flex items-center text-sm mr-2">
+            By
+            <span
+              className="ml-1 font-semibold hover:text-sky-500 hover:underline select-none cursor-pointer"
+              onClick={() => {
+                navigate(`/profile/${deckInfo?.authorId}`);
+              }}
+            >
+              @{deckInfo?.author?.username}
             </span>
           </div>
           <div className="text-xs font-light">

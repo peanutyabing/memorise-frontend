@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { axiosDefault } from "../../Utils/axios.js";
 import {
   Tabs,
@@ -21,6 +22,7 @@ const rankColorChart = [
 const trophyColorChart = ["yellow", "blue-gray-500", "brown-500"];
 
 export default function Leaderboard() {
+  const navigate = useNavigate();
   const [leaderboardData, setLeaderboardData] = useState([
     {
       label: "This week",
@@ -87,7 +89,10 @@ export default function Leaderboard() {
               {content?.map((row, index) => (
                 <div
                   key={index}
-                  className="max-w-sm mx-auto grid grid-cols-4 mb-1 text-sm justify-items-center items-center"
+                  className="max-w-sm mx-auto grid grid-cols-4 p-1 text-sm justify-items-center items-center cursor-pointer select-none hover:bg-pale-500"
+                  onClick={() => {
+                    navigate(`/profile/${row.userId}`);
+                  }}
                 >
                   <img
                     src={row.user?.imageUrl}

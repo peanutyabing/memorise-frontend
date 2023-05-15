@@ -48,7 +48,12 @@ export default function DeckDetails() {
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-3">
           <div className="font-semibold">{deckInfo?.language?.name}</div>
-          <div className="flex items-center text-sm mr-2 hover:text-sky-500 hover:underline select-none cursor-pointer">
+          <div
+            className="flex items-center text-sm mr-2 hover:text-sky-500 hover:underline select-none cursor-pointer"
+            onClick={() => {
+              navigate(`/profile/${deckInfo?.userId}`);
+            }}
+          >
             <LinkIcon className="h-3 w-3 mr-1" />
             <span className="font-semibold">
               {deckInfo?.user?.username}

@@ -5460,6 +5460,14 @@ html {
   background-color: rgb(248 247 243 / 0.1);
 }
 
+.hover\:bg-pale-800:hover {
+  background-color: #37474f70;
+}
+
+.hover\:bg-pale-500:hover {
+  background-color: #607d8b70;
+}
+
 .hover\:bg-opacity-80:hover {
   --tw-bg-opacity: 0.8;
 }
@@ -6926,6 +6934,10 @@ html {
 
 :is(.dark .dark\:hover\:bg-pale-800:hover) {
   background-color: #37474f70;
+}
+
+:is(.dark .dark\:hover\:bg-pale-200:hover) {
+  background-color: #b0bec570;
 }
 
 :is(.dark .dark\:focus\:text-white:focus) {
