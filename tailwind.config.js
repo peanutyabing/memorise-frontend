@@ -47,6 +47,83 @@ module.exports = withMT({
         "source-sans-3": ['"Source Sans 3"', "sans-serif"],
         quicksand: ['"Quicksand"', "sans-serif"],
         "dancing-script": ['"Dancing Script"', "cursive"],
+        arial: ['"Arial"', "sans-serif"],
+      },
+      keyframes: {
+        "fade-in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(200px)",
+          },
+          "30%": {
+            opacity: "0",
+            transform: "translateY(200px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "flip-horizontal": {
+          "0%": { transform: "rotateY(90deg)" },
+          "30%": { transform: "rotateY(60deg)" },
+          "60%": { transform: "rotateY(35deg)" },
+          "80%": { transform: "rotateY(10deg)" },
+          "90%": { transform: "rotateY(0deg)" },
+        },
+        "enter-from-right": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(30vw)",
+          },
+          "15%": {
+            opacity: "0.5",
+            transform: "translateX(25vw)",
+          },
+          "30%": {
+            opacity: "1",
+            transform: "translateX(20vw)",
+          },
+          "45%": {
+            opacity: "1",
+            transform: "translateX(15vw)",
+          },
+          "60%": {
+            opacity: "1",
+            transform: "translateX(10vw)",
+          },
+          "75%": {
+            opacity: "1",
+            transform: "translateX(5vw)",
+          },
+          "90%": {
+            opacity: "1",
+            transform: "translateX(0vw)",
+          },
+        },
+        heartbeat: {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "14%": {
+            transform: "scale(1.1)",
+          },
+          "28%": {
+            transform: "scale(1)",
+          },
+          "42%": {
+            transform: "scale(1.1)",
+          },
+          "70%": {
+            transform: "scale(1)",
+          },
+        },
+      },
+      animation: {
+        "fade-in-up": "fade-in-up 4s ease-out",
+        "flip-x": "flip-horizontal 0.5s 1 ease-in",
+        "enter-r": "enter-from-right 0.5s ease-in",
+        heartbeat: "heartbeat 1s 1s 1",
       },
     },
   },

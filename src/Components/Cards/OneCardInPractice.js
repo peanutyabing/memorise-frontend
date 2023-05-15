@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
+import useRoundSettings from "../../Hooks/useRoundSettings.js";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import useUser from "../../Hooks/useUser.js";
 import { Button } from "@material-tailwind/react";
@@ -10,28 +10,50 @@ import {
   ForwardIcon,
 } from "@heroicons/react/24/outline";
 
-export default function PracticeCard() {
+export default function OneCardInPractice() {
   let { cardIndex } = useParams();
   const navigate = useNavigate();
-  const { practiceSettings, setPracticeSettings } = usePracticeSettings();
+  const { roundSettings, setRoundSettings } = useRoundSettings();
   const axiosPrivate = useAxiosPrivate();
   const { setUser } = useUser();
 
   const [showOtherSide, setShowOtherSide] = useState(false);
 
-  const currentCard = practiceSettings?.cardsQueue[cardIndex - 1];
+  const currentCard =
+    roundSettings?.cardsQueue && roundSettings?.cardsQueue[cardIndex - 1];
 
-  const displayCardSide = () => {
-    if (
-      (practiceSettings?.seeBackFirst && showOtherSide) ||
-      (!practiceSettings?.seeBackFirst && !showOtherSide)
-    ) {
-      return currentCard?.front;
-    } else if (
-      (practiceSettings?.seeBackFirst && !showOtherSide) ||
-      (!practiceSettings?.seeBackFirst && showOtherSide)
-    ) {
-      return currentCard?.back;
+  const displayCard = () => {
+    if (!showOtherSide) {
+      return (
+        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl animate-enter-r">
+          <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
+          <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-100 dark:bg-blue-gray-900">
+            {roundSettings?.seeBackFirst
+              ? currentCard?.back
+              : currentCard?.front}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl animate-flip-x">
+          <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
+          <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-100 dark:bg-blue-gray-900">
+            <div className="h-4/6 flex flex-col justify-evenly">
+              <div>
+                {roundSettings?.seeBackFirst
+                  ? currentCard?.front
+                  : currentCard?.back}
+              </div>
+              <div className="font-light text-sm text-blue-gray-800 dark:text-blue-gray-200">
+                {roundSettings?.seeBackFirst
+                  ? currentCard?.back
+                  : currentCard?.front}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
     }
   };
 
@@ -79,10 +101,10 @@ export default function PracticeCard() {
   };
 
   const flipCard = (known) => {
-    const cardsQueueToUpdate = [...practiceSettings?.cardsQueue];
+    const cardsQueueToUpdate = [...roundSettings?.cardsQueue];
     if (!known) {
       cardsQueueToUpdate.push(currentCard);
-      setPracticeSettings((prev) => ({
+      setRoundSettings((prev) => ({
         ...prev,
         cardsQueue: cardsQueueToUpdate,
       }));
@@ -93,7 +115,7 @@ export default function PracticeCard() {
   };
 
   const updateRoundStats = (known) => {
-    const statsToUpdate = [...practiceSettings.cards];
+    const statsToUpdate = [...roundSettings?.cards];
     for (const card of statsToUpdate) {
       if (card.id === currentCard.id) {
         card.nSeenThisRound += 1;
@@ -102,7 +124,7 @@ export default function PracticeCard() {
         }
       }
     }
-    setPracticeSettings((prev) => ({ ...prev, cards: statsToUpdate }));
+    setRoundSettings((prev) => ({ ...prev, cards: statsToUpdate }));
   };
 
   const updateBackendCardData = async (known) => {
@@ -110,7 +132,7 @@ export default function PracticeCard() {
     // Get the latest card data from database
     try {
       const currentCardRes = await axiosPrivate.get(
-        `/cards/${practiceSettings?.deck?.id}/${currentCard?.id}`
+        `/cards/${roundSettings?.deck?.id}/${currentCard?.id}`
       );
       reqBody.numberOfTimesSeen = currentCardRes?.data?.numberOfTimesSeen + 1;
       reqBody.lastSeen = new Date();
@@ -121,6 +143,7 @@ export default function PracticeCard() {
     } catch (err) {
       console.log("While requesting for latest data of the current card", err);
     }
+
     // Send updated data back to database
     try {
       await axiosPrivate.put(`/cards/${currentCard?.id}`, reqBody);
@@ -135,10 +158,10 @@ export default function PracticeCard() {
   const goToNextCard = () => {
     setShowOtherSide(false);
     cardIndex++;
-    if (cardIndex <= practiceSettings?.cardsQueue?.length) {
-      navigate(`../${cardIndex}`);
+    if (cardIndex <= roundSettings?.cardsQueue?.length) {
+      navigate(`../${cardIndex}/p`);
     } else {
-      incrementXp(practiceSettings?.nCards);
+      incrementXp(roundSettings?.nCards);
       navigate("../summary");
     }
   };
@@ -167,12 +190,7 @@ export default function PracticeCard() {
 
   return (
     <div>
-      <div className="relative my-6 mx-auto w-[340px] xs:w-[400px] h-64 xs:text-xl">
-        <div className="absolute left-2 top-2 flex flex-col items-center justify-center w-[340px] xs:w-[400px] h-64 p-4 bg-pale-100 dark:bg-pale-800"></div>
-        <div className="absolute left-0 top-0 flex flex-col items-center justify-center text-center font-semibold w-[340px] xs:w-[400px] h-64 p-4 outline outline-2 outline-white dark:outline-black bg-blue-gray-100 dark:bg-blue-gray-900">
-          {displayCardSide()}
-        </div>
-      </div>
+      {displayCard()}
       {displayButtons()}
     </div>
   );

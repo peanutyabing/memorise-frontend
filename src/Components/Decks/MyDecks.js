@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
-import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
+import useRoundSettings from "../../Hooks/useRoundSettings.js";
 import OneDeck from "./OneDeck.js";
 import { Button, Tooltip } from "@material-tailwind/react";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { ReactComponent as OpenAILogo } from "../../Images/openai-white-logomark.svg";
 
 export default function MyDecks() {
   const [userDecks, setUserDecks] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const { setPracticeSettings } = usePracticeSettings();
+  const { setRoundSettings } = useRoundSettings();
 
   useEffect(() => {
     getUserDecks();
@@ -17,7 +19,7 @@ export default function MyDecks() {
 
   useEffect(() => {
     // Clear the practice round data in Context
-    setPracticeSettings({});
+    setRoundSettings({});
   }, []);
 
   const getUserDecks = async () => {
@@ -35,32 +37,59 @@ export default function MyDecks() {
           ))}
 
           <div className="flex flex-col items-center justify-center my-3 mx-3 w-[360px] xs:w-[400px] h-64 min-h-fit p-4 rounded-lg bg-pale-100 dark:bg-pale-800">
-            <div className="font-semibold">Make a deck and earn XPs</div>
+            <div className="font-semibold">Add a new deck</div>
             <Tooltip
               content={
                 <div className="w-64">
                   <div color="white" className="font-medium">
-                    Expand your knowledge
+                    Rely on your knowledge
                   </div>
                   <div
                     variant="small"
                     color="white"
                     className="font-normal opacity-80"
                   >
-                    Earn 5 XP for each new card.
+                    Earn 5 XP for each new card you make.
                   </div>
                 </div>
               }
-              placement="bottom"
+              placement="top"
             >
               <Button
                 color="orange"
-                className="w-3/6 mt-4"
+                className="h-11 w-56 mt-4 flex items-center justify-center gap-2"
                 onClick={() => {
                   navigate("./new");
                 }}
               >
-                New Deck
+                <PencilSquareIcon className="w-6 h-6" /> Make your own
+              </Button>
+            </Tooltip>
+            <Tooltip
+              content={
+                <div className="w-64">
+                  <div color="white" className="font-medium">
+                    Get some help
+                  </div>
+                  <div
+                    variant="small"
+                    color="white"
+                    className="font-normal opacity-80"
+                  >
+                    An AI assistant makes the cards. You can customize them.
+                  </div>
+                </div>
+              }
+              placement="top"
+            >
+              <Button
+                color="orange"
+                className="h-11 w-56 mt-4 flex items-center justify-center gap-2"
+                onClick={() => {
+                  navigate("./ai-assistant");
+                }}
+              >
+                <OpenAILogo className="w-6 h-6" /> Generate with OpenAI
               </Button>
             </Tooltip>
           </div>

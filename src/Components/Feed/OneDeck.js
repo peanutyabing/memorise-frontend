@@ -21,10 +21,7 @@ export default function OneDeck({ deckInfo }) {
           alt=""
           className="rounded-full h-14 w-14 outline outline-1 outline-gray-500/50"
         />
-        <div className="text-xs">
-          @{deckInfo?.user?.username}
-          {/* //// Implement navigate to user profile */}
-        </div>
+        <div className="text-xs">@{deckInfo?.user?.username}</div>
       </div>
 
       {/* {Deck Info} */}

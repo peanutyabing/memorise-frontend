@@ -23,7 +23,7 @@ export default function Feed() {
     } else {
       getAllDecks();
     }
-  }, []);
+  }, [auth]);
 
   const getDecksOfInterest = async () => {
     const decksRes = await axiosPrivate.get("/feed/of-interest");
@@ -49,7 +49,7 @@ export default function Feed() {
           <Leaderboard />
         </div>
         <div className="mt-4 flex flex-col items-center w-full max-w-xl ">
-          <div className="w-full text-left font-semibold">
+          <div className="w-full text-center font-semibold">
             See what others are learning
           </div>
           {decksInFeed.length === 0 && (

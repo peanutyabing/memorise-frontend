@@ -43,9 +43,21 @@ export default function SignInForm() {
       setAuth({ token });
       setEmail("");
       setPassword("");
+      updateLastLogin();
       incrementXp();
       navigate(from, { replace: true });
     } catch (err) {}
+  };
+
+  const updateLastLogin = async () => {
+    try {
+      await axiosPrivate.put("/profile", {
+        lastLoggedIn: new Date(),
+      });
+    } catch (err) {
+      console.log(err);
+      alert(err.message);
+    }
   };
 
   const incrementXp = async () => {

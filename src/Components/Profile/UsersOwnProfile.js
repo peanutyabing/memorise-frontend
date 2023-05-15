@@ -46,8 +46,8 @@ export default function UsersOwnProfile() {
             color="amber"
             icon={<RocketLaunchIcon />}
             onClick={() => {
-              navigate("/");
-            }} //// placeholder for xp history
+              navigate("/my-xp");
+            }}
           />
         </div>
         <div className="mt-2">
@@ -61,14 +61,14 @@ export default function UsersOwnProfile() {
             <div
               className="flex items-center hover:text-sky-500 hover:underline select-none cursor-pointer"
               onClick={() => {
-                navigate(`/...`);
+                navigate("/edit-profile");
               }}
             >
               <PencilIcon className="w-4 h-4" />
               Edit
             </div>
           </div>
-          <div className="pt-12 pb-4 px-4 grid grid-cols-2 gap-x-4 gap-y-2 items-center w-fit">
+          <div className="pt-12 pb-4 px-4 grid grid-cols-[1fr_2fr] gap-x-4 gap-y-2 items-center w-fit">
             <div>First name:</div>
             <div>
               {user?.firstName || (
@@ -79,6 +79,8 @@ export default function UsersOwnProfile() {
             <div>
               {user?.lastName || <QuestionMarkCircleIcon className="w-5 h-5" />}
             </div>
+            <div>Username:</div>
+            <div>{user?.username}</div>
             <div>Email:</div>
             <div>{user?.email}</div>
           </div>

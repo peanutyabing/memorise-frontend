@@ -29,14 +29,14 @@ export default function Navbar() {
       url: "/feed",
       current: location.pathname.includes("/feed"),
     },
-    { name: "Social", url: "/", current: false },
+    // { name: "Social", url: "/", current: false },
   ];
 
   return (
     <>
       <Disclosure
         as="nav"
-        className="fixed top-0 w-full bg-sky-500 font-medium text-white dark:text-black z-40"
+        className="fixed top-0 w-full bg-sky-500 font-medium text-sm text-white dark:text-black z-40"
       >
         {({ open }) => (
           <>

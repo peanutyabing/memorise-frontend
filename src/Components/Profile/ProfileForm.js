@@ -1,24 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth.js";
 import useUser from "../../Hooks/useUser.js";
 import { axiosDefault } from "../../Utils/axios.js";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate.js";
 import { storage } from "../../Firebase.js";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import {
-  Card,
-  Input,
-  Checkbox,
-  Button,
-  Spinner,
-} from "@material-tailwind/react";
+import { Card, Input, Button, Spinner } from "@material-tailwind/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
-import PasswordStrengthBar from "react-password-strength-bar";
 
-export default function SignUpForm() {
-  const { setAuth, trustDevice, setTrustDevice } = useAuth();
-  const { setUser } = useUser();
+export default function ProfileForm() {
+  const { user } = useUser();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
 
@@ -27,8 +18,6 @@ export default function SignUpForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [imageFile, setImageFile] = useState("");
   const [imageInputValue, setImageInputValue] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -36,6 +25,14 @@ export default function SignUpForm() {
     username: false,
     email: false,
   });
+
+  useEffect(() => {
+    setUsername(user?.username);
+    setFirstName(user?.firstName || "");
+    setLastName(user?.lastName || "");
+    setEmail(user?.email);
+    setImageUrl(user?.imageUrl);
+  }, [user]);
 
   const checkIfUnique = async (attributeName, attributeValue) => {
     const response = await axiosDefault.post("/profile/check-if-exist", {
@@ -68,21 +65,13 @@ export default function SignUpForm() {
     setImageFile(e.target.files[0]);
   };
 
-  const toggleTrustDevice = () => {
-    setTrustDevice((prevState) => !prevState);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("trustDevice", trustDevice);
-  }, [trustDevice]);
-
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (uploading) {
       alert("Your profile picture is uploading. Give it a sec!");
       return;
     }
-    if (!username || !email || !password) {
+    if (!username || !email) {
       alert("Please fill in your username, email and password!");
       return;
     }
@@ -90,66 +79,19 @@ export default function SignUpForm() {
       alert("Please select a unique username and email");
       return;
     }
-    if (password !== confirmPassword) {
-      alert("Please make sure that passwords match");
-      return;
-    }
-    try {
-      const signUpRes = await axiosDefault.post(
-        "/auth/sign-up",
-        {
-          username,
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
-      const { token } = signUpRes.data;
-      setAuth({ token });
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      incrementXp();
-    } catch (err) {
-      console.log(err);
-      alert(err.message);
-    }
 
-    await completeProfile();
-    navigate("/interests");
+    await updateProfile();
+    navigate("/my-profile");
   };
 
-  const incrementXp = async () => {
-    try {
-      const xpTransactionRes = await axiosPrivate.post("/xp", {
-        xpActivityId: 1, // Create account
-      });
-      if (xpTransactionRes?.data?.id) {
-        updateUserXpDisplay();
-        alert(`Congrats! You just earned ${100}xp for creating an account.`);
-      }
-    } catch (err) {
-      console.log(err);
-      alert(`Oops. We didn't manage to update your XP. ${err.message}`);
-    }
-  };
-
-  const updateUserXpDisplay = async () => {
-    try {
-      const updatedProfileRes = await axiosPrivate.get("/profile");
-      setUser((prev) => ({ ...prev, xp: updatedProfileRes?.data?.xp }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const completeProfile = async () => {
+  const updateProfile = async () => {
     try {
       await axiosPrivate.put("/profile", {
+        username,
+        email,
         imageUrl,
         firstName,
         lastName,
-        lastLoggedIn: new Date(),
       });
     } catch (err) {
       console.log(err);
@@ -161,7 +103,7 @@ export default function SignUpForm() {
     <div className="h-screen pt-20 flex flex-col justify-center align-center bg-white text-black dark:bg-black dark:text-white">
       <Card className="mx-auto" color="transparent" shadow={false}>
         <h1 className="text-center text-xl font-medium dark:text-white">
-          Welcome to Memorise!
+          My Profile
         </h1>
         <div className="m-auto mt-3 w-16 h-16">
           {uploading ? (
@@ -242,69 +184,15 @@ export default function SignUpForm() {
                 This email already exists
               </div>
             )}
-            <Input
-              type="password"
-              size="lg"
-              color="orange"
-              className="dark:text-white"
-              label="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <PasswordStrengthBar
-              password={password}
-              className="text-xs -mt-2 mb-1"
-              scoreWordStyle={{ textAlign: "left" }}
-            />
-            <Input
-              type="password"
-              size="lg"
-              color="orange"
-              className="dark:text-white"
-              label="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-              }}
-            />
-            {password !== confirmPassword && (
-              <div className="text-xs text-deep-orange-700 dark:text-deep-orange-200 -mt-2">
-                Passwords do not match
-              </div>
-            )}
           </div>
-          <Checkbox
-            label={
-              <div className="flex items-center text-black dark:text-white">
-                Trust this device
-              </div>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-            color="orange"
-            checked={trustDevice}
-            onChange={toggleTrustDevice}
-          />
           <Button
             className="mt-4 font-quicksand text-sm"
             fullWidth
             type="submit"
             color="orange"
           >
-            Create Account
+            Update Profile
           </Button>
-          <div className="mt-4 text-center text-black dark:text-white">
-            Have an account?{" "}
-            <span
-              onClick={() => {
-                navigate("/sign-in");
-              }}
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700 cursor-pointer select-none"
-            >
-              Sign In
-            </span>
-          </div>
         </form>
       </Card>
     </div>

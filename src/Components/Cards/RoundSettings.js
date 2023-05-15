@@ -1,29 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import usePracticeSettings from "../../Hooks/usePracticeSettings.js";
+import { useParams, useNavigate } from "react-router-dom";
+import useRoundSettings from "../../Hooks/useRoundSettings.js";
 import { Button, Checkbox } from "@material-tailwind/react";
 
-export default function PracticeSettings() {
+export default function RoundSettings() {
+  const { mode } = useParams();
   const navigate = useNavigate();
-  const { setPracticeSettings } = usePracticeSettings();
+  const { setRoundSettings } = useRoundSettings();
   const [seeBackFirst, setSeeBackFirst] = useState(false);
   const [shuffled, setShuffled] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPracticeSettings((prev) => ({
+    setRoundSettings((prev) => ({
       ...prev,
       seeBackFirst,
       shuffled,
-      practiceStarted: true,
+      roundStarted: true,
     }));
     if (shuffled) {
-      setPracticeSettings((prev) => ({
+      setRoundSettings((prev) => ({
         ...prev,
         cardsQueue: shuffle(prev.cardsQueue),
       }));
     }
-    navigate("../1");
+    navigate(`../1/${mode[0]}`);
   };
 
   const shuffle = (cards) => {
