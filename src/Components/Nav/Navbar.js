@@ -1,7 +1,7 @@
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { SunIcon } from "@heroicons/react/24/solid";
+import MemoriseIcon from "../../Images/memorise-logo-rounded-s.png";
 import DarkModeToggle from "./DarkModeToggle.js";
 import ProfileDropdown from "./ProfileDropdown.js";
 
@@ -55,8 +55,7 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
-                    <SunIcon className="text-yellow h-10 w-10 lg:hidden" />
-                    <SunIcon className="hidden text-yellow h-10 w-10 lg:block" />
+                    <img src={MemoriseIcon} alt="" className="h-10 w-10" />
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">

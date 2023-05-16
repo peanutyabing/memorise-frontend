@@ -3,9 +3,9 @@
   "name": "Memorise - rise and repeat",
   "icons": [
     {
-      "src": "placeholder.png",
+      "src": "memorise-logo-rounded-xs.png",
       "type": "image/png",
-      "sizes": "40x40"
+      "sizes": "96x96"
     }
   ],
   "start_url": ".",
