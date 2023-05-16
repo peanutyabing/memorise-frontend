@@ -96,10 +96,10 @@ export default function DeckDetails() {
       {/* Interactions */}
       <div className="mt-4 flex justify-center">
         <ButtonGroup color="orange">
-          <Button className="w-40 flex items-center justify-center" disabled>
+          {/* <Button className="w-40 flex items-center justify-center" disabled>
             <HeartIcon className="w-4 h-4 mr-1" />
             Like
-          </Button>
+          </Button> */}
 
           <Button
             className="w-40 flex items-center justify-center"

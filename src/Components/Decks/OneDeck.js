@@ -102,10 +102,10 @@ export default function OneDeck({ deckInfo }) {
       {/* Card Footer */}
       <div className="flex justify-between items-center mt-2">
         <div className="flex select-none">
-          <div className="flex items-center mr-2 text-sm">
+          {/* <div className="flex items-center mr-2 text-sm">
             <HeartIcon className="w-4 h-4 mr-1" />
             {deckInfo?.nLikes}
-          </div>
+          </div> */}
           <div className="flex items-center text-sm">
             <ArrowDownOnSquareIcon className="w-4 h-4 mr-1" />
             {deckInfo?.nForks}

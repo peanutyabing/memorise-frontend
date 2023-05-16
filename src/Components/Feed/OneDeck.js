@@ -45,10 +45,10 @@ export default function OneDeck({ deckInfo }) {
         />
         <div className="flex items-center justify-between select-none mt-1">
           <div className="flex gap-3">
-            <div className="flex items-center text-sm">
+            {/* <div className="flex items-center text-sm">
               <HeartIcon className="w-4 h-4 mr-1" />
               {deckInfo?.nLikes}
-            </div>
+            </div> */}
             <div className="flex items-center text-sm">
               <ArrowDownOnSquareIcon className="w-4 h-4 mr-1" />
               {deckInfo?.nForks}
