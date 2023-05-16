@@ -10,6 +10,7 @@ import {
   ArrowsRightLeftIcon,
 } from "@heroicons/react/24/solid";
 import { Button, ButtonGroup, Tooltip } from "@material-tailwind/react";
+import OpenAiLogo from "../../Images/openai-white-logomark.svg";
 
 export default function DeckDetails() {
   const { deckId } = useParams();
@@ -68,6 +69,18 @@ export default function DeckDetails() {
           </div>
         </div>
       </div>
+      {deckInfo?.aiGenerated && (
+        <div className="flex items-center justify-center gap-1">
+          <img
+            src={OpenAiLogo}
+            alt="AI assisted"
+            className="h-5 w-5 p-1 rounded-full bg-blue-gray-800 dark:bg-transparent"
+          />
+          <span className="text-xs">
+            Powered by <span className="font-arial">OpenAI</span>
+          </span>
+        </div>
+      )}
 
       {/* Cards */}
       <div className="grid md:grid-cols-2 max-w-3xl gap-2 mx-auto my-4">

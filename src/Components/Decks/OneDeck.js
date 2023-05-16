@@ -38,7 +38,7 @@ export default function OneDeck({ deckInfo }) {
       <CardsPreview
         cards={deckInfo?.cards}
         deckId={deckInfo?.id}
-        displayLimit={8}
+        displayLimit={5}
         allowEdit={true}
       />
 
