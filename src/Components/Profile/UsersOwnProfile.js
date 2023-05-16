@@ -101,12 +101,16 @@ export default function UsersOwnProfile() {
             </div>
           </div>
           <div className="pt-12 pb-4 px-4 flex flex-col gap-x-4 gap-y-2">
-            {interests.map((interest) => (
-              <div key={interest.id} className="grid grid-cols-2 gap-2">
-                <div>{interest.language?.name}</div>
-                <div>{interest.fluencyLevel?.name}</div>
-              </div>
-            ))}
+            {interests.length === 0 ? (
+              <div>You haven't provided your interests yet!</div>
+            ) : (
+              interests.map((interest) => (
+                <div key={interest.id} className="grid grid-cols-2 gap-2">
+                  <div>{interest.language?.name}</div>
+                  <div>{interest.fluencyLevel?.name}</div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

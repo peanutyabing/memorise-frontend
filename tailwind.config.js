@@ -74,27 +74,27 @@ module.exports = withMT({
         "enter-from-right": {
           "0%": {
             opacity: "0",
-            transform: "translateX(30vw)",
+            transform: "translateX(10vw)",
           },
           "15%": {
-            opacity: "0.5",
-            transform: "translateX(25vw)",
+            opacity: "0.3",
+            transform: "translateX(8vw)",
           },
           "30%": {
-            opacity: "1",
-            transform: "translateX(20vw)",
+            opacity: "0.5",
+            transform: "translateX(6vw)",
           },
           "45%": {
             opacity: "1",
-            transform: "translateX(15vw)",
+            transform: "translateX(4vw)",
           },
           "60%": {
             opacity: "1",
-            transform: "translateX(10vw)",
+            transform: "translateX(2vw)",
           },
           "75%": {
             opacity: "1",
-            transform: "translateX(5vw)",
+            transform: "translateX(1vw)",
           },
           "90%": {
             opacity: "1",
