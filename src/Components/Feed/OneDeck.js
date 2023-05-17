@@ -27,7 +27,12 @@ export default function OneDeck({ deckInfo }) {
 
       {/* {Deck Info} */}
       <div className="flex flex-col justify-center w-full text-sm">
-        <div className="font-semibold">{deckInfo?.language?.name}</div>
+        <div className="flex items-center justify-between gap-3 mb-1">
+          <div className="font-semibold">{deckInfo?.language?.name}</div>
+          <div className="text-xs font-light">
+            {moment(new Date(deckInfo?.createdAt)).fromNow()}
+          </div>
+        </div>
         <div className="flex items-center justify-between gap-3 mb-1">
           <div className="flex items-center gap-3">
             <DifficultyRating
@@ -46,9 +51,6 @@ export default function OneDeck({ deckInfo }) {
                 </span>
               </>
             )}
-          </div>
-          <div className="text-xs font-light">
-            {moment(new Date(deckInfo?.createdAt)).fromNow()}
           </div>
         </div>
 
@@ -75,11 +77,11 @@ export default function OneDeck({ deckInfo }) {
                 Forked from @{deckInfo?.author?.username}
               </div>
             )}
-            {deckInfo?.subcategories?.length > 0 && (
+            {/* {deckInfo?.subcategories?.length > 0 && (
               <div className="text-xs text-gray-500 italic underline underline-offset-2">
                 {deckInfo?.subcategories?.map((subcat) => `#${subcat.name}`)}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
