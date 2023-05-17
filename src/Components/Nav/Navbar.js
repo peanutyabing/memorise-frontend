@@ -1,4 +1,5 @@
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import useRedirect from "../../Hooks/useRedirect.js";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import MemoriseIcon from "../../Images/memorise-logo-rounded-s.png";
@@ -10,6 +11,8 @@ export function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const { redirect } = useRedirect();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,7 +43,7 @@ export default function Navbar() {
       >
         {({ open }) => (
           <>
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="mx-auto px-2 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   {/* Mobile menu button*/}
@@ -64,6 +67,7 @@ export default function Navbar() {
                           key={item.name}
                           onClick={() => {
                             navigate(item.url);
+                            clearTimeout(redirect);
                           }}
                           className={classNames(
                             item.current
@@ -93,6 +97,7 @@ export default function Navbar() {
                     key={item.name}
                     onClick={() => {
                       navigate(item.url);
+                      clearTimeout(redirect);
                     }}
                     className={classNames(
                       item.current

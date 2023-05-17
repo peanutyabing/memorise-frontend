@@ -1,20 +1,22 @@
 import { useEffect } from "react";
-import useAuth from "./Hooks/useAuth";
+import useAuth from "./Hooks/useAuth.js";
+import useRedirect from "./Hooks/useRedirect.js";
 import { useNavigate } from "react-router-dom";
 import appLogoLarge from "./Images/memorise-logo-l.png";
 import { Button, Spinner } from "@material-tailwind/react";
 
 function App() {
   const { auth } = useAuth();
+  const { redirect, setRedirect } = useRedirect();
   const navigate = useNavigate();
-  let redirect;
 
   useEffect(() => {
     if (auth?.token) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      redirect = setTimeout(() => {
-        navigate("/my-decks");
-      }, 6000);
+      setRedirect(
+        setTimeout(() => {
+          navigate("/my-decks");
+        }, 6000)
+      );
     }
   }, []);
 

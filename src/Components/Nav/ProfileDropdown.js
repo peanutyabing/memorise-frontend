@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import useRedirect from "../../Hooks/useRedirect.js";
 import useSignOut from "../../Hooks/useSignOut.js";
 import useUser from "../../Hooks/useUser.js";
 import { Fragment } from "react";
@@ -10,10 +11,12 @@ import { RocketLaunchIcon } from "@heroicons/react/24/solid";
 
 export default function ProfileDropdown() {
   const { user } = useUser();
+  const { redirect } = useRedirect();
   const navigate = useNavigate();
   const signOut = useSignOut();
 
   const handleSignOut = async () => {
+    clearTimeout(redirect);
     await signOut();
     navigate("/");
   };
@@ -54,6 +57,7 @@ export default function ProfileDropdown() {
                 icon={<RocketLaunchIcon />}
                 onClick={() => {
                   navigate("/my-xp");
+                  clearTimeout(redirect);
                 }}
               />
             </Menu.Item>
@@ -66,6 +70,7 @@ export default function ProfileDropdown() {
                   )}
                   onClick={() => {
                     navigate("/my-profile");
+                    clearTimeout(redirect);
                   }}
                 >
                   {user?.username[0].toUpperCase()}
@@ -82,6 +87,7 @@ export default function ProfileDropdown() {
                   )}
                   onClick={() => {
                     navigate("/");
+                    clearTimeout(redirect);
                   }}
                 >
                   Settings
@@ -113,6 +119,7 @@ export default function ProfileDropdown() {
                   )}
                   onClick={() => {
                     navigate("/sign-in");
+                    clearTimeout(redirect);
                   }}
                 >
                   Sign in
@@ -128,6 +135,7 @@ export default function ProfileDropdown() {
                   )}
                   onClick={() => {
                     navigate("/sign-up");
+                    clearTimeout(redirect);
                   }}
                 >
                   Create account

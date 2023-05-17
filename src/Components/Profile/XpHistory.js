@@ -33,7 +33,7 @@ export default function XpHistory() {
     <div className="pt-20 pb-10 h-max min-h-screen bg-white text-black dark:bg-black dark:text-white flex flex-col items-center">
       <header></header>
       <h1 className="font-semibold text-xl mt-2 mb-4">XP History</h1>
-      <Card className="mx-auto overflow-scroll h-full w-full max-w-lg dark:bg-black text-sm">
+      <Card className="mx-auto h-full w-full max-w-lg dark:bg-black text-sm">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>

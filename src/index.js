@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Context/AuthProvider.js";
 import { UserProvider } from "./Context/UserProvider.js";
 import { RoundSettingsProvider } from "./Context/RoundSettingsProvider.js";
+import { RedirectProvider } from "./Context/RedirectProvider.js";
 import RequireAuth from "./Components/RequireAuth.js";
 import PersistLogin from "./Components/PersistLogin.js";
 import Navbar from "./Components/Nav/Navbar.js";
@@ -35,67 +36,75 @@ root.render(
     <AuthProvider>
       <UserProvider>
         <RoundSettingsProvider>
-          <Routes>
-            <Route element={<PersistLogin />}>
-              <Route element={<Navbar />}>
-                {/* Public routes */}
-                <Route path="/" element={<App />} />
-                <Route path="/tour" element={<Tour />} />
-                <Route path="/sign-in" element={<SignInForm />} />
-                <Route path="/sign-up" element={<SignUpForm />} />
-                <Route path="/feed" element={<Feed />} />
-                <Route path="/feed/:deckId" element={<DeckDetails />} />
+          <RedirectProvider>
+            <Routes>
+              <Route element={<PersistLogin />}>
+                <Route element={<Navbar />}>
+                  {/* Public routes */}
+                  <Route path="/" element={<App />} />
+                  <Route path="/tour" element={<Tour />} />
+                  <Route path="/sign-in" element={<SignInForm />} />
+                  <Route path="/sign-up" element={<SignUpForm />} />
+                  <Route path="/feed" element={<Feed />} />
+                  <Route path="/feed/:deckId" element={<DeckDetails />} />
 
-                <Route element={<RequireAuth />}>
-                  {/* Protected routes */}
-                  <Route path="/interests" element={<UserInterestsForm />} />
-                  <Route
-                    path="/edit-interests"
-                    element={<UserInterestsForm />}
-                  />
-                  <Route path="/my-profile" element={<UsersOwnProfile />} />
-                  <Route
-                    path="/profile/:userId"
-                    element={<OtherUsersProfile />}
-                  />
-                  <Route path="/edit-profile" element={<ProfileForm />} />
-                  <Route path="/my-xp" element={<XpHistory />} />
-                  <Route path="/my-decks" element={<MyDecks />} />
-                  <Route path="/my-decks/new" element={<DeckForm />} />
-                  <Route path="/my-decks/:deckId/edit" element={<DeckForm />} />
-                  <Route path="/my-decks/:deckId/fork" element={<DeckForm />} />
-                  <Route
-                    path="/my-decks/ai-assistant"
-                    element={<AiInstructionsForm />}
-                  />
-                  <Route
-                    path="/my-decks/:deckId/:mode"
-                    element={<RoundHeader />}
-                  >
+                  <Route element={<RequireAuth />}>
+                    {/* Protected routes */}
+                    <Route path="/interests" element={<UserInterestsForm />} />
                     <Route
-                      path="/my-decks/:deckId/:mode/settings"
-                      element={<RoundSettings />}
+                      path="/edit-interests"
+                      element={<UserInterestsForm />}
+                    />
+                    <Route path="/my-profile" element={<UsersOwnProfile />} />
+                    <Route
+                      path="/profile/:userId"
+                      element={<OtherUsersProfile />}
+                    />
+                    <Route path="/edit-profile" element={<ProfileForm />} />
+                    <Route path="/my-xp" element={<XpHistory />} />
+                    <Route path="/my-decks" element={<MyDecks />} />
+                    <Route path="/my-decks/new" element={<DeckForm />} />
+                    <Route
+                      path="/my-decks/:deckId/edit"
+                      element={<DeckForm />}
                     />
                     <Route
-                      path="/my-decks/:deckId/:mode/:cardIndex/p"
-                      element={<OneCardInPractice />}
+                      path="/my-decks/:deckId/fork"
+                      element={<DeckForm />}
                     />
                     <Route
-                      path="/my-decks/:deckId/:mode/:cardIndex/c"
-                      element={<OneCardInChallenge />}
+                      path="/my-decks/ai-assistant"
+                      element={<AiInstructionsForm />}
                     />
                     <Route
-                      path="/my-decks/:deckId/:mode/summary"
-                      element={<RoundSummary />}
-                    />
+                      path="/my-decks/:deckId/:mode"
+                      element={<RoundHeader />}
+                    >
+                      <Route
+                        path="/my-decks/:deckId/:mode/settings"
+                        element={<RoundSettings />}
+                      />
+                      <Route
+                        path="/my-decks/:deckId/:mode/:cardIndex/p"
+                        element={<OneCardInPractice />}
+                      />
+                      <Route
+                        path="/my-decks/:deckId/:mode/:cardIndex/c"
+                        element={<OneCardInChallenge />}
+                      />
+                      <Route
+                        path="/my-decks/:deckId/:mode/summary"
+                        element={<RoundSummary />}
+                      />
+                    </Route>
                   </Route>
-                </Route>
 
-                {/* Catch-all for invalid URLs */}
-                <Route path="*" element={<Lost />} />
+                  {/* Catch-all for invalid URLs */}
+                  <Route path="*" element={<Lost />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
+            </Routes>
+          </RedirectProvider>
         </RoundSettingsProvider>
       </UserProvider>
     </AuthProvider>
