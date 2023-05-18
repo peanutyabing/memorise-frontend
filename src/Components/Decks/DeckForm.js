@@ -89,7 +89,7 @@ export default function DeckForm() {
 
   const handleRemoveRow = (i) => {
     const updatedDeck = [...deck];
-    const removedFormRow = updatedDeck.splice(i, 1)[0];
+    const removedFormRow = updatedDeck.splice(i, 1)[0] || {};
     if (removedFormRow.id) {
       setCardsToDelete((prev) => [...prev, removedFormRow]);
     }

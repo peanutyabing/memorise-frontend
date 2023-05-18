@@ -40,16 +40,11 @@ export default function OneDeck({ deckInfo }) {
               difficultyLevel={deckInfo?.difficultyLevel?.name}
             />
             {deckInfo?.aiGenerated && (
-              <>
-                <img
-                  src={OpenAiLogo}
-                  alt="AI assisted"
-                  className="h-5 w-5 p-1 rounded-full bg-blue-gray-800 dark:bg-transparent"
-                />
-                <span className="text-xs -ml-2">
-                  Powered by <span className="font-arial">OpenAI</span>
-                </span>
-              </>
+              <img
+                src={OpenAiLogo}
+                alt="AI assisted"
+                className="h-5 w-5 p-1 rounded-full bg-blue-gray-800 dark:bg-transparent"
+              />
             )}
           </div>
         </div>
