@@ -58,7 +58,29 @@ export default function AiInstructionsForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isWithinUsageLimit = await checkUsageLimit();
+    if (isWithinUsageLimit === false) {
+      return;
+    }
     setSubmitting(true);
+    generateWithAi();
+  };
+
+  const checkUsageLimit = async () => {
+    try {
+      const usageLimitRes = await axiosPrivate.get("/ai/check-limit");
+      if (usageLimitRes?.data?.success === false) {
+        alert(usageLimitRes?.data?.msg);
+        return false;
+      } else if (usageLimitRes?.data?.success === true) {
+        return true;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const generateWithAi = async () => {
     try {
       const newDeck = await axiosPrivate.post("/ai/create-deck", {
         languageId: selectedLanguage.id,
