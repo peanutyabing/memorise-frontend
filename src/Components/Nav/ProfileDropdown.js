@@ -86,11 +86,11 @@ export default function ProfileDropdown() {
                     "block px-4 py-2 text-sm text-white dark:text-black cursor-pointer select-none"
                   )}
                   onClick={() => {
-                    navigate("/");
+                    navigate("/pricing");
                     clearTimeout(redirect);
                   }}
                 >
-                  Settings
+                  Pricing
                 </div>
               )}
             </Menu.Item>
