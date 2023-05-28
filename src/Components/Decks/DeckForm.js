@@ -107,6 +107,21 @@ export default function DeckForm() {
     setDeck(updatedDeck);
   };
 
+  const quickTranslate = async (e) => {
+    const updatedDeck = [...deck];
+    if (!updatedDeck[e.target.name] || !updatedDeck[e.target.name]["front"]) {
+      return;
+    }
+    const translatedRes = await axiosDefault.get("translate/to-en", {
+      params: {
+        text: updatedDeck[e.target.name]["front"],
+        sourceLanguageCode: selectedLanguage?.code,
+      },
+    });
+    updatedDeck[e.target.name]["back"] = translatedRes.data.translatedText;
+    setDeck(updatedDeck);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (deckId && location.pathname.includes("edit")) {
@@ -315,11 +330,14 @@ export default function DeckForm() {
             color="orange"
             className="dark:text-white"
             name={i}
-            label={`Card ${i + 1} front`}
+            label={`Card ${i + 1} front ${
+              selectedLanguage?.code ? `(${selectedLanguage?.code})` : ""
+            }`}
             value={deck[i]?.front || ""}
             onChange={(e) => {
               handleChange(e, "front");
             }}
+            onBlur={quickTranslate}
           />
           <Input
             size="md"
@@ -354,9 +372,13 @@ export default function DeckForm() {
           <h1 className="text-center text-xl font-medium dark:text-white">
             {deckId ? "Edit Deck" : "New Deck"}
           </h1>
-          <div className="text-xs mb-3">
-            Forked from @{forkedFromUser?.username}
-          </div>
+          {forkedFromUser?.username ? (
+            <div className="text-xs mb-3">
+              Forked from @{forkedFromUser?.username}
+            </div>
+          ) : (
+            <div className="mb-3"></div>
+          )}
           <div>
             <div className="grid grid-cols-2 gap-2 items-center mb-2">
               <div className="dark:text-white justify-self-end mr-6">

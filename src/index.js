@@ -26,6 +26,7 @@ import OneCardInChallenge from "./Components/Cards/OneCardInChallenge.js";
 import RoundSummary from "./Components/Cards/RoundSummary.js";
 import Feed from "./Components/Feed/Feed.js";
 import DeckDetails from "./Components/Feed/DeckDetails.js";
+import Pricing from "./Components/Pricing.js";
 import Tour from "./Components/Tour.js";
 import Lost from "./Components/Lost.js";
 import "./index.css";
@@ -43,6 +44,7 @@ root.render(
                   {/* Public routes */}
                   <Route path="/" element={<App />} />
                   <Route path="/tour" element={<Tour />} />
+                  <Route path="/pricing" element={<Pricing />} />
                   <Route path="/sign-in" element={<SignInForm />} />
                   <Route path="/sign-up" element={<SignUpForm />} />
                   <Route path="/feed" element={<Feed />} />
