@@ -52,7 +52,7 @@ export default function Pricing() {
             Pro
           </div>
           <div className="flex flex-col items-center bg-white dark:bg-black rounded-lg w-11/12 px-4 py-6 my-2">
-            <div className="text-4xl font-semibold text-orange-500 mb-4">
+            <div className="text-4xl font-semibold text-orange-500 text-center mb-4">
               Coming Soon
             </div>
             <div className="grid grid-cols-[1fr_5fr]">
@@ -78,7 +78,7 @@ export default function Pricing() {
                 className="h-5 w-5 text-light-green-500"
                 strokeWidth={3}
               />
-              <div>More features coming soon!</div>
+              <div>More features coming in 2H2023</div>
             </div>
           </div>
         </div>
